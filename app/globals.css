@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-obsidian text-platinum;
+    font-feature-settings: "ss01", "cv01";
+  }
+
+  ::selection {
+    @apply bg-platinum text-obsidian;
+  }
+
+  /* Scroll offset for fixed navbar */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  .glass-dark {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.65) 0%,
+      rgba(12, 19, 36, 0.5) 100%
+    );
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  }
+
+  .glass-light {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(248, 250, 252, 0.5) 100%
+    );
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  }
+
+  .divider-platinum {
+    @apply border-platinum/10;
+  }
+
+  .overline {
+    @apply font-grotesk uppercase tracking-overline text-xs font-medium;
+  }
+
+  /* Grain noise overlay sutil para fundos dark */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

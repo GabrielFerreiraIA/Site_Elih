@@ -1,0 +1,44 @@
+{
+  "project": {
+    "name": "Site Elih",
+    "description": "Website moderno para Elih Seguros",
+    "type": "frontend-design"
+  },
+  "skills": {
+    "design": [
+      "frontend-design",
+      "design-system",
+      "liquid-glass-design",
+      "ui-demo",
+      "brand-voice"
+    ],
+    "development": [
+      "nextjs-turbopack",
+      "frontend-patterns",
+      "api-design"
+    ],
+    "quality": [
+      "accessibility",
+      "e2e-testing",
+      "seo",
+      "security-review"
+    ],
+    "devops": [
+      "docker-patterns",
+      "deployment-patterns"
+    ]
+  },
+  "paths": {
+    "skillsGlobal": "/c/Users/gabri/.agents/skills",
+    "skillsProject": "./.claude/skills"
+  },
+  "tools": {
+    "frontend": "next.js",
+    "styling": "tailwind-css",
+    "deployment": "vercel"
+  },
+  "permissions": {
+    "globalSkills": "read-only",
+    "fileOperations": "write"
+  }
+}
