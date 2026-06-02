@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Check, MapPin, Headset, Building2, Network } from "lucide-react";
+import { Check, MapPinned, HeartHandshake, Building2, Network } from "lucide-react";
 import Overline from "../primitives/Overline";
 
 const checks = [
-  { icon: MapPin, label: "Cobertura nacional" },
+  { icon: MapPinned, label: "Cobertura nacional" },
   { icon: Building2, label: "Gestão centralizada para filiais" },
-  { icon: Headset, label: "Suporte consultivo ao RH" },
+  { icon: HeartHandshake, label: "Suporte consultivo ao RH" },
   { icon: Network, label: "Rede adequada ao perfil da equipe" },
 ];
 

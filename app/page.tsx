@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Navbar />
       <main>
-        <Hero />
+        <Hero heroImageUrl="https://res.cloudinary.com/dxpfoolyp/image/upload/q_auto/f_auto/v1780423160/Hero_Elih__smb4uh.png" />
         <TrustBar />
         <Metodo />
         <CoberturaNacional />

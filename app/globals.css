@@ -53,6 +53,46 @@
     @apply font-grotesk uppercase tracking-overline text-xs font-medium;
   }
 
+  /* ── Metallic edge (silver gradient border, bright at corners) ── */
+  .edge {
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+  }
+  .edge-soft {
+    background: linear-gradient(
+      135deg,
+      rgba(226, 232, 240, 0.5) 0%,
+      rgba(148, 163, 184, 0.08) 28%,
+      rgba(226, 232, 240, 0.02) 50%,
+      rgba(148, 163, 184, 0.08) 72%,
+      rgba(226, 232, 240, 0.42) 100%
+    );
+  }
+  .edge-strong {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(148, 163, 184, 0.25) 32%,
+      rgba(226, 232, 240, 0.12) 50%,
+      rgba(148, 163, 184, 0.25) 68%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+  }
+
+  /* Faint blueprint grid, fades out radially */
+  .grid-fade {
+    background-image:
+      linear-gradient(rgba(226, 232, 240, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(226, 232, 240, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  }
+
   /* Grain noise overlay sutil para fundos dark */
   .grain {
     position: relative;

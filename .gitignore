@@ -31,5 +31,15 @@ next-env.d.ts
 .vscode/
 .idea/
 
-# Claude Code — configurações locais (permissões de sessão)
+# Claude Code — configurações locais e skills baixadas
 .claude/settings.local.json
+.claude/skills/
+
+# Logs de dev server local
+*.dev.log
+.next-dev.log
+
+# Configs MCP locais
+mcp_config_combined.json
+n8n_mcp_config.json
+n8n-skills/

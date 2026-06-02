@@ -1,0 +1,44 @@
+# Dependências (reinstaladas dentro do container)
+node_modules
+npm-debug.log*
+
+# Build anterior
+.next
+out
+
+# Arquivos de desenvolvimento local
+.env
+.env.local
+.env*.local
+*.dev.log
+.next-dev.log
+
+# Git / IDE
+.git
+.gitignore
+.vscode
+.idea
+
+# Claude Code
+.claude
+
+# Configs MCP locais
+mcp_config_combined.json
+n8n_mcp_config.json
+n8n-skills
+
+# Supabase (migrations locais — não necessárias na imagem)
+supabase
+
+# Playwright
+playwright-report
+test-results
+
+# Misc
+.DS_Store
+*.pem
+README.md
+SETUP-COMPLETO.md
+SKILLS-SETUP.md
+Referencias\ Visuais
+volta-ev.aura.build

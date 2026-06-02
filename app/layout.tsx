@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,6 +13,14 @@ const grotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-grotesk",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -43,7 +51,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${grotesk.variable}`}>
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${grotesk.variable} ${playfair.variable}`}
+    >
       <body className="font-sans">{children}</body>
     </html>
   );
