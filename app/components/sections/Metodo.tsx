@@ -399,7 +399,7 @@ export default function Metodo() {
                           </span>
                         </div>
                         <p className="text-xs text-platinum/50 leading-relaxed mb-4">
-                          Cuidamos de toda a transição de planos de saúde, garantindo portabilidade de carências e integrando os dados dos funcionários em segundo plano.
+                          Cuidamos de toda a transição de planos de saúde, gerenciando a compra de carências e integrando os dados dos funcionários em segundo plano.
                         </p>
                       </div>
 
@@ -418,7 +418,7 @@ export default function Metodo() {
 
                         {[
                           { id: 1, label: "Auditoria cadastral de base", desc: "Varredura de dependentes e inconsistências" },
-                          { id: 2, label: "Portabilidade de carências", desc: "Garantia de isenção total junto à nova operadora" },
+                          { id: 2, label: "Compra de carências", desc: "Redução ou isenção de prazos junto à nova operadora" },
                           { id: 3, label: "Migração digital na operadora", desc: "Transmissão sem duplicidade de cobrança" },
                           { id: 4, label: "Onboarding & Atendimento Ativo", desc: "Entrega de carteirinhas e suporte ao colaborador" },
                         ].map((st, sIdx) => {

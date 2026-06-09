@@ -25,6 +25,8 @@ import {
   Plus,
   Minus,
   Briefcase,
+  HeartPulse,
+  Search,
   type LucideIcon,
 } from "lucide-react";
 import Overline from "../primitives/Overline";
@@ -35,6 +37,12 @@ import {
   digitsOnly,
   type RespostaEntry,
 } from "../../../lib/leadPayload";
+import {
+  formatCNPJ,
+  isValidCNPJ,
+  fetchCNPJ,
+  type CNPJData,
+} from "../../../lib/cnpj";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -65,8 +73,17 @@ type VidasDef = {
   brackets: VidasBracket[];
 };
 
-type StepDef = SelectDef | VidasDef;
-type QuizStepName = "tipo" | "porte" | "plano" | "regiao" | "idade" | "vidas" | "hospital" | "valor";
+// Constituição da empresa: 4 blocos + opção de informar o CNPJ
+type PorteDef = {
+  type: "porte";
+  campo: string;
+  pergunta: string;
+  icon: LucideIcon;
+  blocks: Option[];
+};
+
+type StepDef = SelectDef | VidasDef | PorteDef;
+type QuizStepName = "tipo" | "porte" | "plano" | "regiao" | "idade" | "vidas" | "hospital" | "tem_plano" | "valor";
 type StepName = QuizStepName | "nome" | "tel";
 type CurStep = "intro" | StepName;
 
@@ -87,17 +104,18 @@ const STEPS: Record<QuizStepName, StepDef> = {
     ],
   },
 
-  // Pergunta exclusiva para CNPJ — porte impacta elegibilidade e operadoras disponíveis
+  // Pergunta exclusiva para CNPJ — porte impacta elegibilidade e operadoras disponíveis.
+  // 4 blocos OU informar o CNPJ (mais assertivo, enriquece o lead via BrasilAPI).
   porte: {
-    type: "select",
+    type: "porte",
     campo: "porte",
     pergunta: "Como a empresa está constituída?",
     icon: Briefcase,
-    options: [
-      { valor: "MEI",        rotulo: "MEI",                desc: "Microempreendedor Individual" },
-      { valor: "ME_EPP",     rotulo: "Micro / Pequena",    desc: "ME ou EPP — até ~50 funcionários" },
-      { valor: "MEDIO",      rotulo: "Média Empresa",      desc: "LTDA / S.A. — 50 a 200 funcionários" },
-      { valor: "GRANDE",     rotulo: "Grande Empresa",     desc: "LTDA / S.A. — acima de 200 funcionários" },
+    blocks: [
+      { valor: "MEI",    rotulo: "MEI",    desc: "Microempreendedor Individual" },
+      { valor: "ME_EPP", rotulo: "ME/EPP", desc: "Micro ou Pequena Empresa" },
+      { valor: "LTDA",   rotulo: "LTDA",   desc: "Sociedade Limitada" },
+      { valor: "SA",     rotulo: "S.A.",   desc: "Sociedade Anônima" },
     ],
   },
 
@@ -171,10 +189,22 @@ const STEPS: Record<QuizStepName, StepDef> = {
     ],
   },
 
+  // Pergunta sim/não — só libera a pergunta de valor quando já existe plano hoje
+  tem_plano: {
+    type: "select",
+    campo: "tem_plano",
+    pergunta: "Você tem plano de saúde hoje?",
+    icon: HeartPulse,
+    options: [
+      { valor: "SIM", rotulo: "Sim, já tenho" },
+      { valor: "NAO", rotulo: "Ainda não tenho" },
+    ],
+  },
+
   valor: {
     type: "select",
     campo: "valor",
-    pergunta: "Qual é o investimento mensal em saúde?",
+    pergunta: "Quanto você investe no plano de saúde hoje?",
     icon: Wallet,
     options: [
       { valor: "0-500",     rotulo: "Até R$ 500" },
@@ -186,7 +216,7 @@ const STEPS: Record<QuizStepName, StepDef> = {
 };
 
 const ALL_STEPS: StepName[] = [
-  "tipo", "porte", "plano", "regiao", "idade", "vidas", "hospital", "valor", "nome", "tel",
+  "tipo", "porte", "plano", "regiao", "idade", "vidas", "hospital", "tem_plano", "valor", "nome", "tel",
 ];
 
 // Recalcula quais steps são visíveis a partir das respostas atuais
@@ -198,6 +228,7 @@ function getVisibleSteps(answers: Answers): StepName[] {
     if (s === "plano")  return tipo === "CPF";
     if (s === "idade")  return tipo === "CPF" && plano === "INDIVIDUAL";
     if (s === "vidas")  return tipo === "CNPJ" || (tipo === "CPF" && plano === "FAMILIAR");
+    if (s === "valor")  return answers.tem_plano === "SIM";
     return true;
   });
 }
@@ -219,9 +250,10 @@ const slideReduced = {
 
 function getOptionIcon(campo: string, valor: string): LucideIcon | null {
   const map: Record<string, Record<string, LucideIcon>> = {
-    tipo:     { CPF: User, CNPJ: Building2 },
-    plano:    { INDIVIDUAL: User, FAMILIAR: Users },
-    hospital: { SIM: Heart, NAO: ThumbsUp },
+    tipo:      { CPF: User, CNPJ: Building2 },
+    plano:     { INDIVIDUAL: User, FAMILIAR: Users },
+    hospital:  { SIM: Heart, NAO: ThumbsUp },
+    tem_plano: { SIM: HeartPulse, NAO: ThumbsUp },
   };
   return map[campo]?.[valor] ?? null;
 }
@@ -255,6 +287,13 @@ export default function FinalCTA() {
   const [nome, setNome]               = useState("");
   const [telefone, setTelefone]       = useState("");
 
+  // Constituição da empresa — CNPJ opcional, enriquece o lead
+  const [cnpj, setCnpj]             = useState("");
+  const [cnpjStatus, setCnpjStatus] = useState<
+    "idle" | "loading" | "valid" | "invalid" | "notfound" | "error"
+  >("idle");
+  const [empresa, setEmpresa]       = useState<CNPJData | null>(null);
+
   const visibleSteps = useMemo(() => getVisibleSteps(answers), [answers]);
   const stepIdx      = currentStep === "intro" ? -1 : visibleSteps.indexOf(currentStep as StepName);
   const total        = visibleSteps.length;
@@ -270,6 +309,24 @@ export default function FinalCTA() {
 
   function next() {
     if (currentStep === "intro") { goTo("tipo", 1); return; }
+
+    if (currentStep === "porte") {
+      const digits = digitsOnly(cnpj);
+      if (cnpjStatus === "valid" && digits.length === 14 && !empresa) {
+        setCnpjStatus("loading");
+        fetchCNPJ(digits).then((res) => {
+          // Garante que a resposta corresponda ao CNPJ atualmente no estado
+          if (digitsOnly(cnpj) !== digits) return;
+          if (res.ok) {
+            setEmpresa(res.data);
+            setCnpjStatus("valid");
+          } else {
+            setCnpjStatus(res.status === 404 ? "notfound" : "error");
+          }
+        });
+      }
+    }
+
     if (stepIdx < total - 1) goTo(visibleSteps[stepIdx + 1], 1);
   }
 
@@ -292,10 +349,57 @@ export default function FinalCTA() {
     setVidasCounts((c) => ({ ...c, [key]: Math.max(0, (c[key] ?? 0) + delta) }));
   }
 
+  function onCnpjChange(raw: string) {
+    const masked = formatCNPJ(raw);
+    setCnpj(masked);
+    setEmpresa(null);
+    const digits = digitsOnly(masked);
+    if (digits.length < 14) {
+      setCnpjStatus("idle");
+      return;
+    }
+    if (!isValidCNPJ(digits)) {
+      setCnpjStatus("invalid");
+      return;
+    }
+    // CNPJ matematicamente válido → libera botão de prosseguir imediatamente
+    setCnpjStatus("valid");
+  }
+
   const respostas: RespostaEntry[] = useMemo(() => {
     const entries: RespostaEntry[] = [];
     for (const s of visibleSteps) {
       if (s === "nome" || s === "tel") continue;
+      if (s === "porte") {
+        const def = STEPS.porte as PorteDef;
+        const valor = answers.porte ?? "";
+        if (valor) {
+          const blk = def.blocks.find((b) => b.valor === valor);
+          entries.push({ campo: "porte", pergunta: def.pergunta, valor, rotulo: blk?.rotulo ?? valor });
+        }
+        // CNPJ informado → adiciona o CNPJ de forma independente do enriquecimento
+        const digits = digitsOnly(cnpj);
+        if (digits.length === 14 && isValidCNPJ(digits)) {
+          entries.push({ campo: "cnpj", pergunta: "CNPJ informado", valor: digits, rotulo: formatCNPJ(digits) });
+        }
+        // Se tivermos os dados enriquecidos da Receita, adicionamos
+        if (empresa) {
+          entries.push({ campo: "razao_social", pergunta: "Razão social", valor: empresa.razao_social, rotulo: empresa.razao_social });
+          if (empresa.situacao)
+            entries.push({ campo: "situacao_cadastral", pergunta: "Situação cadastral", valor: empresa.situacao, rotulo: empresa.situacao });
+          if (empresa.porte)
+            entries.push({ campo: "porte_receita", pergunta: "Porte (Receita)", valor: empresa.porte, rotulo: empresa.porte });
+          if (empresa.natureza_juridica)
+            entries.push({ campo: "natureza_juridica", pergunta: "Natureza jurídica", valor: empresa.natureza_juridica, rotulo: empresa.natureza_juridica });
+          if (empresa.municipio || empresa.uf) {
+            const loc = [empresa.municipio, empresa.uf].filter(Boolean).join("/");
+            entries.push({ campo: "municipio_uf", pergunta: "Município/UF", valor: loc, rotulo: loc });
+          }
+          if (empresa.cnae)
+            entries.push({ campo: "cnae", pergunta: "Atividade (CNAE)", valor: empresa.cnae, rotulo: empresa.cnae });
+        }
+        continue;
+      }
       if (s === "vidas") {
         const def = STEPS.vidas as VidasDef;
         const tot = Object.values(vidasCounts).reduce((sum, n) => sum + n, 0);
@@ -323,7 +427,7 @@ export default function FinalCTA() {
       entries.push({ campo: s, pergunta: def.pergunta, valor, rotulo: opt?.rotulo ?? valor });
     }
     return entries;
-  }, [visibleSteps, answers, vidasCounts]);
+  }, [visibleSteps, answers, vidasCounts, cnpj, empresa]);
 
   async function handleSubmit() {
     setStatus("submitting");
@@ -335,7 +439,7 @@ export default function FinalCTA() {
         nome: nome.trim(),
         tipo: answers.tipo ?? "",
       });
-      router.push(`/obrigado?${params.toString()}`);
+      router.push(`/solicitacao-concluida?${params.toString()}`);
     } else {
       setStatus("error");
       setErrorMsg(res.error ?? "Falha no envio");
@@ -570,6 +674,22 @@ export default function FinalCTA() {
                         dir={dir}
                         reduced={!!reduced}
                         onChange={adjustVidas}
+                        onContinue={next}
+                      />
+
+                    ) : currentDef?.type === "porte" ? (
+                    /* PORTE + CNPJ */
+                      <PorteStep
+                        key="porte"
+                        def={currentDef}
+                        answers={answers}
+                        cnpj={cnpj}
+                        cnpjStatus={cnpjStatus}
+                        empresa={empresa}
+                        dir={dir}
+                        reduced={!!reduced}
+                        onSelectBlock={(valor) => setAnswers((a) => ({ ...a, porte: valor }))}
+                        onCnpjChange={onCnpjChange}
                         onContinue={next}
                       />
 
@@ -916,6 +1036,157 @@ function VidasCounterStep({
       </div>
 
       <NextButton label="Continuar" disabled={total === 0} onClick={onContinue} />
+    </motion.div>
+  );
+}
+
+// ─── PorteStep ────────────────────────────────────────────────────────────────
+
+function PorteStep({
+  def,
+  answers,
+  cnpj,
+  cnpjStatus,
+  empresa,
+  dir,
+  reduced,
+  onSelectBlock,
+  onCnpjChange,
+  onContinue,
+}: {
+  def: PorteDef;
+  answers: Answers;
+  cnpj: string;
+  cnpjStatus: "idle" | "loading" | "valid" | "invalid" | "notfound" | "error";
+  empresa: CNPJData | null;
+  dir: number;
+  reduced: boolean;
+  onSelectBlock: (valor: string) => void;
+  onCnpjChange: (raw: string) => void;
+  onContinue: () => void;
+}) {
+  const selected   = answers.porte ?? "";
+  const canContinue = Boolean(selected) || cnpjStatus === "valid";
+
+  return (
+    <motion.div
+      custom={dir}
+      variants={reduced ? slideReduced : slideVariants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={{ duration: 0.4, ease }}
+      className="flex-1 flex flex-col"
+    >
+      <StepHeading icon={def.icon} label={def.pergunta} />
+
+      {/* 4 blocos */}
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        {def.blocks.map((blk) => {
+          const isOn = selected === blk.valor;
+          return (
+            <button
+              key={blk.valor}
+              type="button"
+              onClick={() => onSelectBlock(blk.valor)}
+              className={`group relative flex flex-col items-start gap-0.5 rounded-2xl px-4 py-3.5 border text-left transition-all duration-200 ${
+                isOn
+                  ? "bg-blue-600/20 border-blue-400/60 shadow-[0_8px_24px_-8px_rgba(59,130,246,0.3)]"
+                  : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
+              }`}
+            >
+              <span className={`text-base font-bold leading-tight transition-colors ${
+                isOn ? "text-pristine" : "text-platinum/85 group-hover:text-platinum"
+              }`}>
+                {blk.rotulo}
+              </span>
+              {blk.desc && (
+                <span className={`text-[11px] leading-snug transition-colors ${
+                  isOn ? "text-blue-300/80" : "text-platinum/40 group-hover:text-platinum/55"
+                }`}>
+                  {blk.desc}
+                </span>
+              )}
+              {isOn && (
+                <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-blue-400 border border-blue-300">
+                  <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Divisor + CNPJ */}
+      <div className="mt-5 flex items-center gap-3">
+        <span className="h-px flex-1 bg-platinum/15" />
+        <span className="text-[10px] font-grotesk uppercase tracking-[0.16em] text-platinum/40">
+          ou informe o CNPJ
+        </span>
+        <span className="h-px flex-1 bg-platinum/15" />
+      </div>
+
+      <div className="mt-4">
+        <div className="relative">
+          <input
+            value={cnpj}
+            inputMode="numeric"
+            onChange={(e) => onCnpjChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                if (canContinue) {
+                  onContinue();
+                }
+              }
+            }}
+            placeholder="00.000.000/0000-00"
+            className={`w-full bg-platinum/5 border rounded-xl pl-4 pr-10 py-3 text-lg font-semibold tracking-wide text-pristine placeholder:text-platinum/40 focus:outline-none transition-colors ${
+              cnpjStatus === "invalid" || cnpjStatus === "error" || cnpjStatus === "notfound"
+                ? "border-red-400/50 focus:border-red-400"
+                : cnpjStatus === "valid"
+                ? "border-blue-400/60 focus:border-blue-400"
+                : "border-platinum/20 focus:border-blue-400"
+            }`}
+          />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2">
+            {cnpjStatus === "loading" ? (
+              <Loader2 className="w-4 h-4 text-blue-300 animate-spin" />
+            ) : cnpjStatus === "valid" ? (
+              <Check className="w-4 h-4 text-blue-300" strokeWidth={2.5} />
+            ) : (
+              <Search className="w-4 h-4 text-platinum/35" />
+            )}
+          </span>
+        </div>
+
+        {/* Aviso / feedback */}
+        {cnpjStatus === "valid" && empresa ? (
+          <div className="mt-3 rounded-xl bg-blue-600/10 border border-blue-400/30 px-3.5 py-2.5">
+            <p className="text-[13px] font-semibold text-pristine leading-snug">
+              {empresa.razao_social || "Empresa encontrada"}
+            </p>
+            <p className="mt-0.5 text-[11px] text-blue-300/80">
+              {[empresa.situacao, empresa.porte, [empresa.municipio, empresa.uf].filter(Boolean).join("/")]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          </div>
+        ) : cnpjStatus === "invalid" ? (
+          <p className="mt-2 text-[11px] text-red-400/90">CNPJ inválido — confira os números.</p>
+        ) : cnpjStatus === "notfound" ? (
+          <p className="mt-2 text-[11px] text-red-400/90">CNPJ não encontrado na Receita.</p>
+        ) : cnpjStatus === "error" ? (
+          <p className="mt-2 text-[11px] text-red-400/90">Não foi possível consultar agora — siga sem o CNPJ.</p>
+        ) : (
+          <p className="mt-2 text-[11px] text-platinum/45 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5" aria-hidden />
+            Informar o CNPJ deixa a cotação mais assertiva.
+          </p>
+        )}
+      </div>
+
+      <NextButton label="Continuar" disabled={!canContinue} onClick={onContinue} />
     </motion.div>
   );
 }

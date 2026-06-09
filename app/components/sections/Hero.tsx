@@ -436,8 +436,8 @@ export default function Hero({
               transition={{ duration: 0.72, delay: 0.1, ease }}
               className="mt-4 text-[1.8rem] sm:text-[2.1rem] lg:text-[2.25rem] xl:text-[2.5rem] font-extrabold tracking-tight leading-[1.08] text-balance text-obsidian"
             >
-              Receba uma assessoria de ponta para o{" "}
-              <span className="text-corp-navy">seguro de vida</span> da sua empresa.
+              Plano de Saúde para Empresas (PME) —{" "}
+              <span className="text-corp-navy block sm:inline">A partir de 2 vidas</span>
             </motion.h1>
 
             <motion.p
@@ -446,8 +446,7 @@ export default function Hero({
               transition={{ duration: 0.65, delay: 0.22, ease }}
               className="mt-4 text-[0.95rem] sm:text-base leading-relaxed text-slate-600 max-w-[480px] text-balance"
             >
-              A Elih compara operadoras, redes e condições comerciais para
-              desenhar o plano de saúde ideal para sua empresa.
+              Cote e compare planos para o seu CNPJ com as principais operadoras (Bradesco, Amil, SulAmérica e mais). Encontre a rede credenciada ideal com até 40% de economia.
             </motion.p>
 
             <motion.div
