@@ -1080,52 +1080,25 @@ function PorteStep({
     >
       <StepHeading icon={def.icon} label={def.pergunta} />
 
-      {/* 4 blocos */}
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        {def.blocks.map((blk) => {
-          const isOn = selected === blk.valor;
-          return (
-            <button
-              key={blk.valor}
-              type="button"
-              onClick={() => onSelectBlock(blk.valor)}
-              className={`group relative flex flex-col items-start gap-0.5 rounded-2xl px-4 py-3.5 border text-left transition-all duration-200 ${
-                isOn
-                  ? "bg-blue-600/20 border-blue-400/60 shadow-[0_8px_24px_-8px_rgba(59,130,246,0.3)]"
-                  : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
-              }`}
-            >
-              <span className={`text-base font-bold leading-tight transition-colors ${
-                isOn ? "text-pristine" : "text-platinum/85 group-hover:text-platinum"
-              }`}>
-                {blk.rotulo}
-              </span>
-              {blk.desc && (
-                <span className={`text-[11px] leading-snug transition-colors ${
-                  isOn ? "text-blue-300/80" : "text-platinum/40 group-hover:text-platinum/55"
-                }`}>
-                  {blk.desc}
-                </span>
-              )}
-              {isOn && (
-                <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-blue-400 border border-blue-300">
-                  <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />
-                </span>
-              )}
-            </button>
-          );
-        })}
+      {/* Aviso UI UX PRO MAX */}
+      <div className="mt-4 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/5 border border-blue-400/20 p-4 relative overflow-hidden shadow-[0_8px_32px_-6px_rgba(59,130,246,0.15)] group/warn">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400/5 rounded-full blur-2xl pointer-events-none" />
+        <div className="flex gap-3 items-start">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-400/30 shrink-0 text-blue-300">
+            <TrendingDown className="w-4 h-4" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-sm font-semibold text-blue-200">
+              Economize até 35% com CNPJ
+            </h4>
+            <p className="mt-1 text-xs text-platinum/70 leading-relaxed">
+              Planos corporativos (incluindo MEI) são muito mais baratos. Preencha seu CNPJ para garantir o desconto e preencher os dados automaticamente pela Receita Federal.
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Divisor + CNPJ */}
-      <div className="mt-5 flex items-center gap-3">
-        <span className="h-px flex-1 bg-platinum/15" />
-        <span className="text-[10px] font-grotesk uppercase tracking-[0.16em] text-platinum/40">
-          ou informe o CNPJ
-        </span>
-        <span className="h-px flex-1 bg-platinum/15" />
-      </div>
-
+      {/* CNPJ Input */}
       <div className="mt-4">
         <div className="relative">
           <input
@@ -1178,12 +1151,53 @@ function PorteStep({
           <p className="mt-2 text-[11px] text-red-400/90">CNPJ não encontrado na Receita.</p>
         ) : cnpjStatus === "error" ? (
           <p className="mt-2 text-[11px] text-red-400/90">Não foi possível consultar agora — siga sem o CNPJ.</p>
-        ) : (
-          <p className="mt-2 text-[11px] text-platinum/45 flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5" aria-hidden />
-            Informar o CNPJ deixa a cotação mais assertiva.
-          </p>
-        )}
+        ) : null}
+      </div>
+
+      {/* Divisor */}
+      <div className="mt-4 flex items-center gap-3">
+        <span className="h-px flex-1 bg-platinum/15" />
+        <span className="text-[10px] font-grotesk uppercase tracking-[0.16em] text-platinum/40">
+          ou selecione o porte manualmente
+        </span>
+        <span className="h-px flex-1 bg-platinum/15" />
+      </div>
+
+      {/* 4 blocos */}
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        {def.blocks.map((blk) => {
+          const isOn = selected === blk.valor;
+          return (
+            <button
+              key={blk.valor}
+              type="button"
+              onClick={() => onSelectBlock(blk.valor)}
+              className={`group relative flex flex-col items-start gap-0.5 rounded-2xl px-4 py-3 border text-left transition-all duration-200 ${
+                isOn
+                  ? "bg-blue-600/20 border-blue-400/60 shadow-[0_8px_24px_-8px_rgba(59,130,246,0.3)]"
+                  : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
+              }`}
+            >
+              <span className={`text-base font-bold leading-tight transition-colors ${
+                isOn ? "text-pristine" : "text-platinum/85 group-hover:text-platinum"
+              }`}>
+                {blk.rotulo}
+              </span>
+              {blk.desc && (
+                <span className={`text-[11px] leading-snug transition-colors ${
+                  isOn ? "text-blue-300/80" : "text-platinum/40 group-hover:text-platinum/55"
+                }`}>
+                  {blk.desc}
+                </span>
+              )}
+              {isOn && (
+                <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-blue-400 border border-blue-300">
+                  <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       <NextButton label="Continuar" disabled={!canContinue} onClick={onContinue} />
