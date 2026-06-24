@@ -8,6 +8,7 @@ const SUPABASE_URL              = process.env.SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 export async function POST(req: NextRequest) {
+  let savedToSupabase = false;
   try {
     const payload = await req.json();
 
@@ -43,7 +44,8 @@ export async function POST(req: NextRequest) {
           source:       payload.source       ?? "site-elih",
           form:         payload.form         ?? "cotacao-simplificada",
           submitted_at: payload.submitted_at ?? new Date().toISOString(),
-          status:       "Novo",
+          // Deve casar com o 1º estágio do funil do CRM (company.status_type[0]).
+          status:       "Novo Lead",
 
           // ── Perfil do quiz ───────────────────────────────────────────────────
           tipo_contrato:      r.tipo     ?? null,  // col. existente — CPF | CNPJ
@@ -93,16 +95,26 @@ export async function POST(req: NextRequest) {
         });
 
         if (!dbRes.ok) {
+          // Lê a mensagem real do PostgREST (status sozinho não diz o motivo).
+          const errBody = await dbRes.text().catch(() => "");
           // eslint-disable-next-line no-console
-          console.error(`[Leads Route] Supabase respondeu com status ${dbRes.status}`);
+          console.error(`[Leads Route] Supabase falhou ${dbRes.status}: ${errBody}`);
+        } else {
+          savedToSupabase = true;
         }
       } catch (dbErr) {
+        // Tipicamente acontece quando o projeto Supabase está PAUSADO (free tier)
+        // ou as envs SUPABASE_* não estão configuradas no deploy.
         // eslint-disable-next-line no-console
         console.error("[Leads Route] Erro ao salvar no Supabase:", dbErr);
       }
+    } else {
+      // eslint-disable-next-line no-console
+      console.error("[Leads Route] SUPABASE_URL/SERVICE_ROLE_KEY ausentes — lead NÃO salvo no CRM");
     }
 
-    return NextResponse.json({ ok: true });
+    // savedToSupabase=false => lead foi só pro n8n; verifique env/pausa do projeto.
+    return NextResponse.json({ ok: true, savedToSupabase });
   } catch (e) {
     return NextResponse.json(
       { ok: false, error: e instanceof Error ? e.message : "unknown error" },
