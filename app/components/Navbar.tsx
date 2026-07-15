@@ -64,7 +64,7 @@ export default function Navbar() {
             <img
               src="/img/logo/elih-seguros-wordmark-navy.png"
               alt="Elih Seguros"
-              className="h-10 sm:h-12 w-auto object-contain"
+              className="h-7 sm:h-9 w-auto object-contain"
             />
           </Link>
 
