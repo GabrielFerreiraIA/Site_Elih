@@ -262,9 +262,8 @@ function getOptionIcon(campo: string, valor: string): LucideIcon | null {
 
 function QuoteBadge() {
   return (
-    <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-corp-navy shadow-[0_8px_22px_-10px_rgba(2,6,23,0.6)] relative overflow-hidden">
-      <span aria-hidden className="pointer-events-none absolute inset-0 rounded-full edge edge-soft" />
-      <span className="font-grotesk text-[10px] uppercase tracking-[0.18em] text-platinum/85 relative">
+    <span className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/10 shadow-[var(--shadow-sm)] relative overflow-hidden">
+      <span className="font-display text-[10px] uppercase tracking-[0.18em] text-white/90 relative">
         Cotação simplificada
       </span>
     </span>
@@ -454,14 +453,14 @@ export default function FinalCTA() {
   return (
     <section
       id="contato"
-      className="relative isolate overflow-hidden bg-pristine text-graphite border-t border-soft-slate"
+      className="relative isolate overflow-hidden bg-white text-neutral-900 border-t border-neutral-200"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_50%_at_85%_10%,rgba(226,232,240,0.6),transparent_65%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_50%_at_85%_10%,rgba(1,18,70,0.015),transparent_65%)]" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          backgroundImage: "linear-gradient(rgba(15,23,42,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.028) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(1,18,70,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(1,18,70,0.01) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
           WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%)",
           maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%)",
@@ -487,7 +486,7 @@ export default function FinalCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mt-5 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.1] font-bold tracking-tight text-balance text-obsidian"
+              className="mt-5 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.1] font-bold font-display tracking-tight text-balance text-navy-950"
             >
               Pague menos pelo plano de saúde ideal.
             </motion.h2>
@@ -497,21 +496,21 @@ export default function FinalCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-5 text-base sm:text-lg leading-relaxed text-slate-600 text-balance"
+              className="mt-5 text-base sm:text-lg leading-relaxed text-neutral-600 text-balance"
             >
               Responda algumas perguntas rápidas e um consultor da Elih retorna
               com as melhores condições do mercado para o seu perfil.
             </motion.p>
 
-            <ul className="mt-9 space-y-3.5 text-sm text-slate-600 font-medium">
+            <ul className="mt-9 space-y-3.5 text-sm text-neutral-600 font-medium">
               {[
                 { icon: TrendingDown, t: `Até ${REDUCAO} de economia no valor atual` },
                 { icon: CalendarCheck, t: "Retorno consultivo em até 1 dia útil" },
                 { icon: ShieldCheck,   t: "Sem compromisso · dados protegidos (LGPD)" },
               ].map((it) => (
                 <li key={it.t} className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-clinical border border-slate-200 shrink-0">
-                    <it.icon className="w-3.5 h-3.5 text-corp-navy/70" strokeWidth={1.5} aria-hidden />
+                  <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-navy-50/50 border border-navy-100 shrink-0">
+                    <it.icon className="w-3.5 h-3.5 text-navy-900" strokeWidth={1.75} aria-hidden />
                   </span>
                   {it.t}
                 </li>
@@ -526,16 +525,15 @@ export default function FinalCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="relative rounded-[24px] bg-corp-navy glass-dark border border-white/[0.08] shadow-[0_30px_80px_-20px_rgba(2,6,23,0.7)] overflow-hidden"
+              className="relative rounded-[24px] bg-[#010b28] border border-white/10 shadow-[var(--shadow-xl)] overflow-hidden"
             >
-              <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[24px] edge edge-soft" />
               <div className="relative p-6 sm:p-8 lg:p-9 min-h-[470px] flex flex-col">
 
                 {/* Top bar */}
                 <div className="flex items-center justify-between gap-4 mb-7">
                   <QuoteBadge />
                   {status === "form" && currentStep !== "intro" && (
-                    <span className="font-grotesk text-[11px] uppercase tracking-[0.14em] text-platinum/50 tabular-nums shrink-0">
+                    <span className="font-display text-[11px] uppercase tracking-[0.14em] text-white/50 tabular-nums shrink-0">
                       {stepIdx + 1} / {total}
                     </span>
                   )}
@@ -544,9 +542,9 @@ export default function FinalCTA() {
                 {/* Progress + back */}
                 {status === "form" && currentStep !== "intro" && (
                   <div className="mb-7">
-                    <div className="h-1 rounded-full bg-platinum/10 overflow-hidden">
+                    <div className="h-1 rounded-full bg-white/10 overflow-hidden">
                       <motion.div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-400 to-cyan-300"
+                        className="h-full rounded-full bg-accent-500"
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 0.5, ease }}
                       />
@@ -554,7 +552,7 @@ export default function FinalCTA() {
                     <button
                       type="button"
                       onClick={back}
-                      className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-grotesk uppercase tracking-[0.14em] text-platinum/50 hover:text-platinum/85 transition-colors"
+                      className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-display uppercase tracking-[0.14em] text-white/50 hover:text-white transition-colors"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" aria-hidden />
                       Voltar
@@ -579,12 +577,12 @@ export default function FinalCTA() {
                           initial={reduced ? false : { scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
-                          className="flex items-center justify-center w-16 h-16 rounded-full bg-blue-400/20 border border-blue-400/40 mb-6"
+                          className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 mb-6"
                         >
-                          <Check className="w-8 h-8 text-blue-300" strokeWidth={2.5} />
+                          <Check className="w-8 h-8 text-emerald-400" strokeWidth={2.5} />
                         </motion.span>
-                        <h3 className="text-2xl font-bold text-pristine">Cotação recebida!</h3>
-                        <p className="mt-3 text-sm text-platinum/70 max-w-sm leading-relaxed">
+                        <h3 className="text-2xl font-bold font-display text-white">Cotação recebida!</h3>
+                        <p className="mt-3 text-sm text-white/70 max-w-sm leading-relaxed">
                           Obrigado, {nome.split(" ")[0] || "tudo certo"}. Um consultor da Elih
                           vai entrar em contato pelo WhatsApp em breve com as melhores condições.
                         </p>
@@ -601,17 +599,17 @@ export default function FinalCTA() {
                         <span className="flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 border border-red-500/40 mb-6">
                           <AlertCircle className="w-8 h-8 text-red-400" strokeWidth={2} />
                         </span>
-                        <h3 className="text-xl font-bold text-pristine">Não foi possível enviar agora</h3>
-                        <p className="mt-2.5 text-sm text-platinum/70 max-w-sm leading-relaxed">
+                        <h3 className="text-xl font-bold font-display text-white">Não foi possível enviar agora</h3>
+                        <p className="mt-2.5 text-sm text-white/70 max-w-sm leading-relaxed">
                           Tente novamente em instantes. Se persistir, fale direto com a gente.
                         </p>
                         {errorMsg && (
-                          <p className="mt-2 text-[11px] text-platinum/50 font-mono">{errorMsg}</p>
+                          <p className="mt-2 text-[11px] text-white/50 font-mono">{errorMsg}</p>
                         )}
                         <button
                           type="button"
                           onClick={() => setStatus("form")}
-                          className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-pristine text-sm font-semibold hover:bg-blue-700 transition-colors"
+                          className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent-500 text-white text-sm font-semibold hover:bg-accent-700 transition-colors font-display"
                         >
                           Tentar novamente
                         </button>
@@ -629,25 +627,19 @@ export default function FinalCTA() {
                         transition={{ duration: 0.4, ease }}
                         className="flex-1 flex flex-col justify-center"
                       >
-                        <h3 className="text-2xl sm:text-[1.75rem] font-bold text-pristine leading-tight text-balance">
+                        <h3 className="text-2xl sm:text-[1.75rem] font-bold font-display text-white leading-tight text-balance">
                           Faça sua cotação simples — você pode reduzir em até{" "}
-                          <span className="text-blue-300">{REDUCAO}</span> o valor
+                          <span className="text-accent-300">{REDUCAO}</span> o valor
                           do seu plano de saúde atual.
                         </h3>
-                        <p className="mt-4 text-sm sm:text-base text-platinum/70 leading-relaxed">
+                        <p className="mt-4 text-sm sm:text-base text-white/70 leading-relaxed">
                           São perguntas rápidas e diretas. Leva menos de um minuto.
                         </p>
                         <button
                           type="button"
                           onClick={next}
-                          className="group mt-8 relative inline-flex self-start items-center gap-2.5 px-6 py-3.5 rounded-[11px] text-sm font-semibold text-obsidian overflow-hidden transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
-                          style={{
-                            background: "linear-gradient(160deg, rgba(255,255,255,0.96) 0%, rgba(241,245,249,0.92) 100%)",
-                            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), 0 0 0 1px rgba(15,23,42,0.72), 0 4px 14px -4px rgba(15,23,42,0.18)",
-                          }}
+                          className="group mt-8 relative inline-flex self-start items-center gap-2.5 px-6 py-3.5 rounded-full bg-white text-navy-950 text-sm font-semibold hover:bg-navy-50 transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white font-display shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]"
                         >
-                          <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80" />
-                          <span aria-hidden className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ background: "linear-gradient(160deg, rgba(15,23,42,0.04) 0%, rgba(15,23,42,0.08) 100%)" }} />
                           <span className="relative">Começar cotação</span>
                           <ArrowRight className="relative w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />
                         </button>
@@ -761,7 +753,7 @@ export default function FinalCTA() {
                   <div className="absolute inset-0 z-10 flex items-center justify-center bg-obsidian/70 backdrop-blur-sm rounded-[24px]">
                     <span className="flex flex-col items-center gap-3 text-platinum">
                       <Loader2 className="w-7 h-7 animate-spin text-blue-400" />
-                      <span className="font-grotesk text-[11px] uppercase tracking-[0.16em] text-platinum/70">
+                      <span className="font-display text-[11px] uppercase tracking-[0.14em] text-white/70">
                         Enviando…
                       </span>
                     </span>
@@ -817,27 +809,27 @@ function SelectStep({
                 onClick={() => onSelect(def.campo, opt.valor)}
                 className={`group relative flex flex-col items-center justify-center gap-3 rounded-2xl p-6 border transition-all duration-200 ${
                   selected
-                    ? "bg-blue-600/20 border-blue-400/60 shadow-[0_8px_24px_-8px_rgba(59,130,246,0.3)]"
-                    : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
+                    ? "bg-accent-500/20 border-accent-400/60 shadow-[0_8px_24px_-8px_rgba(37,130,244,0.3)]"
+                    : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
                 }`}
               >
                 {Icon && (
                   <Icon
                     className={`w-8 h-8 transition-colors ${
-                      selected ? "text-blue-300" : "text-platinum/60 group-hover:text-platinum/80"
+                      selected ? "text-accent-300" : "text-white/60 group-hover:text-white/85"
                     }`}
                     strokeWidth={1.5}
                     aria-hidden
                   />
                 )}
                 <span className={`text-sm font-semibold text-center leading-snug transition-colors ${
-                  selected ? "text-pristine" : "text-platinum/80 group-hover:text-platinum/95"
+                  selected ? "text-white" : "text-white/80 group-hover:text-white"
                 }`}>
                   {opt.rotulo}
                 </span>
                 {selected && (
-                  <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-blue-400 border border-blue-300">
-                    <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />
+                  <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-accent-500 border border-accent-400">
+                    <Check className="w-3 h-3 text-navy-950" strokeWidth={3} />
                   </span>
                 )}
               </button>
@@ -856,29 +848,29 @@ function SelectStep({
                 onClick={() => onSelect(def.campo, opt.valor)}
                 className={`group relative w-full text-left rounded-2xl px-4 py-3 border transition-all duration-200 ${
                   selected
-                    ? "bg-blue-600/20 border-blue-400/60 shadow-[0_4px_16px_-8px_rgba(59,130,246,0.3)]"
-                    : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
+                    ? "bg-accent-500/20 border-accent-400/60 shadow-[0_4px_16px_-8px_rgba(37,130,244,0.3)]"
+                    : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
                 }`}
               >
                 <span className="flex items-center justify-between gap-3">
                   <span className="min-w-0">
                     <span className={`block text-[0.95rem] font-semibold leading-snug transition-colors ${
-                      selected ? "text-pristine" : "text-platinum/80 group-hover:text-platinum/95"
+                      selected ? "text-white" : "text-white/85 group-hover:text-white"
                     }`}>
                       {opt.rotulo}
                     </span>
                     {opt.desc && (
                       <span className={`block text-[11px] mt-0.5 transition-colors ${
-                        selected ? "text-blue-300/80" : "text-platinum/40 group-hover:text-platinum/55"
+                        selected ? "text-accent-300/80" : "text-white/40 group-hover:text-white/55"
                       }`}>
                         {opt.desc}
                       </span>
                     )}
                   </span>
                   <span className={`flex items-center justify-center w-5 h-5 rounded-full border shrink-0 transition-all ${
-                    selected ? "bg-blue-400 border-blue-400" : "border-platinum/40 group-hover:border-platinum/60"
+                    selected ? "bg-accent-500 border-accent-400" : "border-white/20 group-hover:border-white/40"
                   }`}>
-                    {selected && <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />}
+                    {selected && <Check className="w-3 h-3 text-navy-950" strokeWidth={3} />}
                   </span>
                 </span>
               </button>
@@ -924,7 +916,7 @@ function VidasCounterStep({
       className="flex-1 flex flex-col"
     >
       <StepHeading icon={def.icon} label={pergunta} />
-      <p className="mt-1.5 text-[12px] text-platinum/50 leading-relaxed">
+      <p className="mt-1.5 text-[12px] text-white/50 leading-relaxed">
         {isCNPJ
           ? "6 faixas pelos saltos reais de preço ANS. Use +10 para entradas rápidas."
           : "Informe quantas pessoas da família estão em cada faixa etária."}
@@ -939,20 +931,20 @@ function VidasCounterStep({
               key={b.key}
               className={`flex items-center gap-2 rounded-xl px-3 py-2 border transition-all duration-150 ${
                 count > 0
-                  ? "bg-blue-600/15 border-blue-400/35"
-                  : "bg-platinum/[0.04] border-platinum/12"
+                  ? "bg-accent-500/15 border-accent-400/35"
+                  : "bg-white/[0.04] border-white/10"
               }`}
             >
               {/* Faixa tag */}
-              <span className={`text-[10px] font-grotesk font-bold uppercase tracking-[0.08em] tabular-nums px-1.5 py-0.5 rounded-md shrink-0 w-[42px] text-center transition-colors ${
-                count > 0 ? "bg-blue-400/20 text-blue-300" : "bg-platinum/10 text-platinum/35"
+              <span className={`text-[10px] font-display font-bold uppercase tracking-[0.08em] tabular-nums px-1.5 py-0.5 rounded-md shrink-0 w-[42px] text-center transition-colors ${
+                count > 0 ? "bg-accent-500/20 text-accent-300" : "bg-white/10 text-white/35"
               }`}>
                 {b.short}
               </span>
 
               {/* Label */}
               <span className={`flex-1 text-[13px] font-medium truncate transition-colors ${
-                count > 0 ? "text-pristine" : "text-platinum/55"
+                count > 0 ? "text-white" : "text-white/60"
               }`}>
                 {b.rotulo}
               </span>
@@ -965,7 +957,7 @@ function VidasCounterStep({
                   onClick={() => onChange(b.key, -10)}
                   disabled={count < 10}
                   aria-label={`−10 vidas em ${b.rotulo}`}
-                  className="flex items-center justify-center h-7 px-1.5 rounded-lg border border-platinum/20 text-[10px] font-bold text-platinum/50 hover:border-platinum/40 hover:text-platinum/80 disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-95"
+                  className="flex items-center justify-center h-7 px-1.5 rounded-lg border border-white/20 text-[10px] font-bold text-white/50 hover:border-white/40 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-95"
                 >
                   −10
                 </button>
@@ -976,7 +968,7 @@ function VidasCounterStep({
                   onClick={() => onChange(b.key, -1)}
                   disabled={count === 0}
                   aria-label={`Remover uma vida de ${b.rotulo}`}
-                  className="flex items-center justify-center w-7 h-7 rounded-lg border border-platinum/25 text-platinum/60 hover:border-platinum/50 hover:text-platinum disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-95"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg border border-white/25 text-white/60 hover:border-white/50 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-all active:scale-95"
                 >
                   <Minus className="w-3 h-3" />
                 </button>
@@ -988,7 +980,7 @@ function VidasCounterStep({
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 22 }}
                   className={`text-base font-bold tabular-nums w-7 text-center transition-colors ${
-                    count > 0 ? "text-blue-300" : "text-platinum/25"
+                    count > 0 ? "text-accent-300" : "text-white/25"
                   }`}
                 >
                   {count}
@@ -999,7 +991,7 @@ function VidasCounterStep({
                   type="button"
                   onClick={() => onChange(b.key, 1)}
                   aria-label={`Adicionar uma vida de ${b.rotulo}`}
-                  className="flex items-center justify-center w-7 h-7 rounded-lg border border-blue-400/35 text-blue-300 hover:bg-blue-400/15 hover:border-blue-400/60 transition-all active:scale-95"
+                  className="flex items-center justify-center w-7 h-7 rounded-lg border border-accent-400/35 text-accent-300 hover:bg-accent-500/15 hover:border-accent-400/60 transition-all active:scale-95"
                 >
                   <Plus className="w-3 h-3" />
                 </button>
@@ -1009,7 +1001,7 @@ function VidasCounterStep({
                   type="button"
                   onClick={() => onChange(b.key, 10)}
                   aria-label={`+10 vidas em ${b.rotulo}`}
-                  className="flex items-center justify-center h-7 px-1.5 rounded-lg border border-blue-400/30 text-[10px] font-bold text-blue-300/70 hover:bg-blue-400/15 hover:border-blue-400/55 hover:text-blue-300 transition-all active:scale-95"
+                  className="flex items-center justify-center h-7 px-1.5 rounded-lg border border-accent-400/30 text-[10px] font-bold text-accent-300/70 hover:bg-accent-500/15 hover:border-accent-400/55 hover:text-accent-300 transition-all active:scale-95"
                 >
                   +10
                 </button>
@@ -1021,14 +1013,14 @@ function VidasCounterStep({
 
       {/* Total */}
       <div className="mt-3 flex items-center gap-2">
-        <span className="text-xs text-platinum/45">Total:</span>
+        <span className="text-xs text-white/45">Total:</span>
         <motion.span
           key={total}
           initial={{ scale: 1.15 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
           className={`text-sm font-bold tabular-nums transition-colors ${
-            total > 0 ? "text-blue-300" : "text-platinum/25"
+            total > 0 ? "text-accent-300" : "text-white/25"
           }`}
         >
           {total} vida{total !== 1 ? "s" : ""}
@@ -1080,18 +1072,18 @@ function PorteStep({
     >
       <StepHeading icon={def.icon} label={def.pergunta} />
 
-      {/* Aviso UI UX PRO MAX */}
-      <div className="mt-4 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/5 border border-blue-400/20 p-4 relative overflow-hidden shadow-[0_8px_32px_-6px_rgba(59,130,246,0.15)] group/warn">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400/5 rounded-full blur-2xl pointer-events-none" />
+      {/* Aviso */}
+      <div className="mt-4 rounded-2xl bg-gradient-to-br from-accent-500/10 to-navy-500/5 border border-accent-400/20 p-4 relative overflow-hidden shadow-[0_8px_32px_-6px_rgba(37,130,244,0.15)] group/warn">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-accent-400/5 rounded-full blur-2xl pointer-events-none" />
         <div className="flex gap-3 items-start">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-400/30 shrink-0 text-blue-300">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-accent-500/20 border border-accent-400/30 shrink-0 text-accent-300">
             <TrendingDown className="w-4 h-4" />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-semibold text-blue-200">
+            <h4 className="text-sm font-semibold text-accent-100 font-display">
               Economize até 35% com CNPJ
             </h4>
-            <p className="mt-1 text-xs text-platinum/70 leading-relaxed">
+            <p className="mt-1 text-xs text-white/70 leading-relaxed">
               Planos corporativos (incluindo MEI) são muito mais baratos. Preencha seu CNPJ para garantir o desconto e preencher os dados automaticamente pela Receita Federal.
             </p>
           </div>
@@ -1114,32 +1106,32 @@ function PorteStep({
               }
             }}
             placeholder="00.000.000/0000-00"
-            className={`w-full bg-platinum/5 border rounded-xl pl-4 pr-10 py-3 text-lg font-semibold tracking-wide text-pristine placeholder:text-platinum/40 focus:outline-none transition-colors ${
+            className={`w-full bg-white/5 border rounded-xl pl-4 pr-10 py-3 text-lg font-semibold tracking-wide text-white placeholder:text-white/40 focus:outline-none transition-colors ${
               cnpjStatus === "invalid" || cnpjStatus === "error" || cnpjStatus === "notfound"
                 ? "border-red-400/50 focus:border-red-400"
                 : cnpjStatus === "valid"
-                ? "border-blue-400/60 focus:border-blue-400"
-                : "border-platinum/20 focus:border-blue-400"
+                ? "border-accent-400/60 focus:border-accent-400"
+                : "border-white/20 focus:border-accent-400"
             }`}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2">
             {cnpjStatus === "loading" ? (
-              <Loader2 className="w-4 h-4 text-blue-300 animate-spin" />
+              <Loader2 className="w-4 h-4 text-accent-300 animate-spin" />
             ) : cnpjStatus === "valid" ? (
-              <Check className="w-4 h-4 text-blue-300" strokeWidth={2.5} />
+              <Check className="w-4 h-4 text-accent-300" strokeWidth={2.5} />
             ) : (
-              <Search className="w-4 h-4 text-platinum/35" />
+              <Search className="w-4 h-4 text-white/35" />
             )}
           </span>
         </div>
 
         {/* Aviso / feedback */}
         {cnpjStatus === "valid" && empresa ? (
-          <div className="mt-3 rounded-xl bg-blue-600/10 border border-blue-400/30 px-3.5 py-2.5">
-            <p className="text-[13px] font-semibold text-pristine leading-snug">
+          <div className="mt-3 rounded-xl bg-accent-500/10 border border-accent-400/30 px-3.5 py-2.5">
+            <p className="text-[13px] font-semibold text-white leading-snug">
               {empresa.razao_social || "Empresa encontrada"}
             </p>
-            <p className="mt-0.5 text-[11px] text-blue-300/80">
+            <p className="mt-0.5 text-[11px] text-accent-300/80">
               {[empresa.situacao, empresa.porte, [empresa.municipio, empresa.uf].filter(Boolean).join("/")]
                 .filter(Boolean)
                 .join(" · ")}
@@ -1156,11 +1148,11 @@ function PorteStep({
 
       {/* Divisor */}
       <div className="mt-4 flex items-center gap-3">
-        <span className="h-px flex-1 bg-platinum/15" />
-        <span className="text-[10px] font-grotesk uppercase tracking-[0.16em] text-platinum/40">
+        <span className="h-px flex-1 bg-white/10" />
+        <span className="text-[10px] font-display uppercase tracking-[0.14em] text-white/40">
           ou selecione o porte manualmente
         </span>
-        <span className="h-px flex-1 bg-platinum/15" />
+        <span className="h-px flex-1 bg-white/10" />
       </div>
 
       {/* 4 blocos */}
@@ -1174,25 +1166,25 @@ function PorteStep({
               onClick={() => onSelectBlock(blk.valor)}
               className={`group relative flex flex-col items-start gap-0.5 rounded-2xl px-4 py-3 border text-left transition-all duration-200 ${
                 isOn
-                  ? "bg-blue-600/20 border-blue-400/60 shadow-[0_8px_24px_-8px_rgba(59,130,246,0.3)]"
-                  : "bg-platinum/5 border-platinum/20 hover:bg-platinum/10 hover:border-platinum/30"
+                  ? "bg-accent-500/20 border-accent-400/60 shadow-[0_8px_24px_-8px_rgba(37,130,244,0.3)]"
+                  : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
               }`}
             >
               <span className={`text-base font-bold leading-tight transition-colors ${
-                isOn ? "text-pristine" : "text-platinum/85 group-hover:text-platinum"
+                isOn ? "text-white" : "text-white/85 group-hover:text-white"
               }`}>
                 {blk.rotulo}
               </span>
               {blk.desc && (
                 <span className={`text-[11px] leading-snug transition-colors ${
-                  isOn ? "text-blue-300/80" : "text-platinum/40 group-hover:text-platinum/55"
+                  isOn ? "text-accent-300/80" : "text-white/40 group-hover:text-white/55"
                 }`}>
                   {blk.desc}
                 </span>
               )}
               {isOn && (
-                <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-blue-400 border border-blue-300">
-                  <Check className="w-3 h-3 text-obsidian" strokeWidth={3} />
+                <span className="absolute top-2 right-2 flex items-center justify-center w-5 h-5 rounded-full bg-accent-500 border border-accent-400">
+                  <Check className="w-3 h-3 text-navy-950" strokeWidth={3} />
                 </span>
               )}
             </button>
@@ -1210,10 +1202,10 @@ function PorteStep({
 function StepHeading({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-400/40 shrink-0">
-        <Icon className="w-4 h-4 text-blue-300" strokeWidth={1.5} aria-hidden />
+      <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-accent-500/20 border border-accent-400/40 shrink-0">
+        <Icon className="w-4 h-4 text-accent-300" strokeWidth={1.5} aria-hidden />
       </span>
-      <h3 className="text-lg sm:text-xl font-semibold text-pristine leading-snug pt-1 text-balance">
+      <h3 className="text-lg sm:text-xl font-semibold font-display text-white leading-snug pt-1 text-balance">
         {label}
       </h3>
     </div>
@@ -1249,7 +1241,7 @@ function TextField({
         }
       }}
       placeholder={placeholder}
-      className="w-full bg-transparent border-0 border-b border-platinum/40 px-0 py-3 text-2xl sm:text-3xl font-semibold text-pristine placeholder:text-platinum/50 focus:outline-none focus:border-blue-400 transition-colors"
+      className="w-full bg-transparent border-0 border-b border-white/40 px-0 py-3 text-2xl sm:text-3xl font-semibold text-white placeholder:text-white/50 focus:outline-none focus:border-accent-400 transition-colors"
     />
   );
 }
@@ -1268,7 +1260,7 @@ function NextButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="group mt-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-blue-600 text-pristine text-sm font-semibold hover:bg-blue-700 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_10px_28px_-10px_rgba(37,99,235,0.4)]"
+      className="group mt-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-accent-500 text-white text-sm font-semibold hover:bg-accent-700 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_10px_28px_-10px_rgba(37,130,244,0.4)] font-display"
     >
       {label}
       <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden />

@@ -16,7 +16,7 @@ export default function CoberturaNacional() {
   return (
     <section
       id="cobertura"
-      className="relative isolate bg-obsidian border-b border-platinum/10 overflow-hidden"
+      className="relative isolate bg-navy-950 border-b border-white/10 overflow-hidden"
     >
       {/* Background image — mapa do Brasil já com pinos */}
       <div className="absolute inset-0 -z-10">
@@ -31,21 +31,21 @@ export default function CoberturaNacional() {
         {/* Left-side darken for text legibility */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/85 via-40% to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 via-40% to-transparent"
         />
         {/* Mobile extra overlay (imagem fica mais ao fundo no mobile) */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-obsidian/55 lg:bg-transparent"
+          className="absolute inset-0 bg-navy-950/55 lg:bg-transparent"
         />
         {/* Top/bottom edge softeners */}
         <div
           aria-hidden
-          className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-obsidian to-transparent"
+          className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-950 to-transparent"
         />
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-obsidian to-transparent"
+          className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy-950 to-transparent"
         />
       </div>
 
@@ -67,7 +67,7 @@ export default function CoberturaNacional() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-pristine text-balance"
+              className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight leading-[1.05] text-white text-balance"
             >
               Proteção sem fronteiras.
             </motion.h2>
@@ -77,7 +77,7 @@ export default function CoberturaNacional() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-6 text-base sm:text-lg leading-relaxed text-platinum/75 text-balance max-w-xl"
+              className="mt-6 text-base sm:text-lg leading-relaxed text-white/70 text-balance max-w-xl"
             >
               Não importa onde seu colaborador esteja. A Elih orienta sua
               empresa na escolha da melhor rede referenciada e oferece suporte
@@ -104,13 +104,13 @@ export default function CoberturaNacional() {
                   }}
                   className="flex items-center gap-3.5"
                 >
-                  <span className="flex items-center justify-center w-8 h-8 rounded-full border border-platinum/20 bg-platinum/[0.05] backdrop-blur-sm">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 bg-white/[0.05] backdrop-blur-sm">
                     <Check
-                      className="w-4 h-4 text-platinum/85"
+                      className="w-4 h-4 text-white/90"
                       strokeWidth={2}
                     />
                   </span>
-                  <span className="text-sm sm:text-base text-platinum/90">
+                  <span className="text-sm sm:text-base text-white/90">
                     {c.label}
                   </span>
                 </motion.li>
@@ -126,10 +126,10 @@ export default function CoberturaNacional() {
               className="mt-12 flex items-center gap-3"
             >
               <span
-                className="w-1.5 h-1.5 rounded-full bg-platinum animate-pulse-soft"
+                className="w-1.5 h-1.5 rounded-full bg-white animate-pulse-soft"
                 aria-hidden
               />
-              <span className="font-grotesk uppercase tracking-[0.18em] text-[11px] text-platinum/55">
+              <span className="font-display uppercase tracking-[0.18em] text-[11px] text-white/50">
                 Rede ativa · cobertura nacional
               </span>
             </motion.div>

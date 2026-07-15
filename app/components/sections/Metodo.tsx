@@ -50,13 +50,7 @@ const pilares: Pilar[] = [
 // ─── Sub-Components / Frame Sheen ───────────────────────────────────────────
 function EdgeFrame({ radius = "rounded-2xl" }: { radius?: string }) {
   return (
-    <>
-      <span className={`pointer-events-none absolute inset-0 ${radius} edge edge-soft`} aria-hidden />
-      <span
-        className={`pointer-events-none absolute inset-0 ${radius} edge edge-strong opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-        aria-hidden
-      />
-    </>
+    <span className={`pointer-events-none absolute inset-0 ${radius} border border-white/10`} aria-hidden />
   );
 }
 
@@ -119,10 +113,10 @@ export default function Metodo() {
   return (
     <section
       id="metodo"
-      className="bg-pristine border-b border-soft-slate relative overflow-hidden"
+      className="bg-white border-b border-neutral-200 relative overflow-hidden"
     >
       {/* Background visual detail */}
-      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.02),transparent_70%)] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-[radial-gradient(circle_at_top_right,rgba(1,18,70,0.015),transparent_70%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
         
@@ -153,8 +147,8 @@ export default function Metodo() {
                   onClick={() => handleTabClick(idx)}
                   className={`group relative text-left p-6 sm:p-7 rounded-2xl border transition-all duration-500 flex gap-5 items-start z-10 ${
                     isActive
-                      ? "border-soft-slate/70 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.12)] scale-[1.01]"
-                      : "border-transparent opacity-65 hover:opacity-100 hover:bg-clinical/50"
+                      ? "border-neutral-200 shadow-[var(--shadow-md)] scale-[1.01]"
+                      : "border-transparent opacity-65 hover:opacity-100 hover:bg-neutral-50/50"
                   }`}
                 >
                   {/* Sliding active background */}
@@ -168,12 +162,12 @@ export default function Metodo() {
 
                   {/* Left Active Progress Indicator */}
                   {isActive && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-corp-navy overflow-hidden rounded-l-2xl z-20">
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-navy-900 overflow-hidden rounded-l-2xl z-20">
                       <motion.div
                         initial={{ scaleY: 0 }}
                         animate={{ scaleY: progress / 100 }}
                         transition={{ ease: "linear" }}
-                        className="w-full h-full bg-corp-navy origin-top"
+                        className="w-full h-full bg-navy-900 origin-top"
                       />
                     </div>
                   )}
@@ -181,8 +175,8 @@ export default function Metodo() {
                   {/* Icon Container */}
                   <div className={`flex items-center justify-center w-12 h-12 rounded-xl border shrink-0 transition-all duration-300 ${
                     isActive
-                      ? "bg-corp-navy text-white border-corp-navy shadow-md shadow-corp-navy/10 scale-105"
-                      : "bg-white border-soft-slate text-graphite/40 group-hover:text-corp-navy group-hover:border-corp-navy/20 group-hover:bg-clinical"
+                      ? "bg-navy-900 text-white border-navy-900 shadow-[var(--shadow-sm)] scale-105"
+                      : "bg-white border-neutral-200 text-neutral-400 group-hover:text-navy-900 group-hover:border-navy-300 group-hover:bg-neutral-50"
                   }`}>
                     <p.icon className="w-5.5 h-5.5" strokeWidth={1.5} />
                   </div>
@@ -190,16 +184,16 @@ export default function Metodo() {
                   {/* Text Details */}
                   <div className="flex-1">
                     <div className="flex items-center justify-between gap-2 mb-2">
-                      <h3 className="text-lg sm:text-xl font-bold tracking-tight text-obsidian">
+                      <h3 className="text-lg sm:text-xl font-bold font-display tracking-tight text-navy-950">
                         {p.title}
                       </h3>
-                      <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full transition-all duration-300 ${
-                        isActive ? "bg-corp-navy/10 text-corp-navy" : "bg-soft-slate/50 text-graphite/50"
+                      <span className={`font-display text-[10px] font-bold px-2.5 py-0.5 rounded-full transition-all duration-300 ${
+                        isActive ? "bg-navy-100 text-navy-800" : "bg-neutral-100 text-neutral-500"
                       }`}>
                         {p.num}
                       </span>
                     </div>
-                    <p className="text-sm leading-relaxed text-graphite/70 text-balance">
+                    <p className="text-sm leading-relaxed text-neutral-600 text-balance">
                       {p.body}
                     </p>
                   </div>
@@ -222,11 +216,11 @@ export default function Metodo() {
             </div>
 
             {/* Container macOS Window Frame */}
-            <div className="w-full h-full rounded-3xl overflow-hidden bg-corp-navy/95 border border-white/[0.08] glass-dark shadow-[0_35px_90px_-20px_rgba(2,6,23,0.85)] p-6 sm:p-7 flex flex-col grain relative">
+            <div className="w-full h-full rounded-3xl overflow-hidden bg-navy-900/95 border border-white/10 glass-dark shadow-[var(--shadow-xl)] p-6 sm:p-7 flex flex-col relative">
               <EdgeFrame radius="rounded-3xl" />
               
               {/* Window Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-6 shrink-0">
+              <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6 shrink-0">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/30 shadow-[inset_0_1px_1.5px_rgba(0,0,0,0.2)]" />
                   <span className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/30 shadow-[inset_0_1px_1.5px_rgba(0,0,0,0.2)]" />

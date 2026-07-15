@@ -91,7 +91,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const REPEL_RADIUS = 175;
 const REPEL_STRENGTH = 32;
 
-// ─── FloatingCard ─── dark glass, metallic edge, repulsion + idle bob ──────────
+// ─── FloatingCard ─── glass card with idle bob ──────────────────────────
 
 function FloatingCard({
   icon: Icon,
@@ -100,46 +100,10 @@ function FloatingCard({
   delay,
   bob,
   className,
-  pointer,
   reduced,
 }: CareCardData & { pointer: Pointer; reduced: boolean | null }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useSpring(0, { stiffness: 110, damping: 17, mass: 0.7 });
-  const y = useSpring(0, { stiffness: 110, damping: 17, mass: 0.7 });
-
-  const compute = () => {
-    const el = ref.current;
-    if (!el || reduced) return;
-    if (!pointer.active.get()) {
-      x.set(0);
-      y.set(0);
-      return;
-    }
-    const r = el.getBoundingClientRect();
-    // Subtract the currently-applied spring offset to get the resting center.
-    const cx = r.left + r.width / 2 - x.get();
-    const cy = r.top + r.height / 2 - y.get();
-    const dx = cx - pointer.x.get();
-    const dy = cy - pointer.y.get();
-    const dist = Math.hypot(dx, dy) || 1;
-    if (dist < REPEL_RADIUS) {
-      const f = 1 - dist / REPEL_RADIUS;
-      x.set((dx / dist) * f * REPEL_STRENGTH);
-      y.set((dy / dist) * f * REPEL_STRENGTH);
-    } else {
-      x.set(0);
-      y.set(0);
-    }
-  };
-
-  useMotionValueEvent(pointer.x, "change", compute);
-  useMotionValueEvent(pointer.y, "change", compute);
-  useMotionValueEvent(pointer.active, "change", compute);
-
   return (
     <motion.div
-      ref={ref}
-      style={{ x, y }}
       initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.55, delay, ease }}
@@ -155,36 +119,26 @@ function FloatingCard({
           delay: delay,
         }}
         className="relative flex items-start gap-2.5 p-3 rounded-2xl overflow-hidden
-                   shadow-[0_18px_44px_-14px_rgba(2,6,23,0.55)]"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(12,19,36,0.76) 100%)",
-          backdropFilter: "blur(18px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(18px) saturate(1.4)",
-        }}
+                   bg-navy-950/70 border border-white/10 backdrop-blur-md
+                   shadow-[var(--shadow-md)]"
       >
-        {/* Metallic edge */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-2xl edge edge-soft"
-        />
         {/* Corner sheen */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -top-px -left-px w-20 h-20 rounded-2xl bg-[radial-gradient(circle_at_top_left,rgba(226,232,240,0.14),transparent_70%)]"
+          className="pointer-events-none absolute -top-px -left-px w-20 h-20 rounded-2xl bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_70%)]"
         />
-        <span className="flex items-center justify-center w-8 h-8 rounded-[10px] bg-white/[0.06] border border-white/10 shrink-0">
+        <span className="flex items-center justify-center w-8 h-8 rounded-[10px] bg-white/10 border border-white/10 shrink-0">
           <Icon
-            className="w-[15px] h-[15px] text-platinum/75"
-            strokeWidth={1.5}
+            className="w-[15px] h-[15px] text-white/90"
+            strokeWidth={1.75}
             aria-hidden
           />
         </span>
         <div className="flex flex-col min-w-0">
-          <span className="font-grotesk text-[10px] uppercase tracking-[0.14em] text-platinum/90 font-medium leading-tight">
+          <span className="font-display text-[10px] uppercase tracking-[0.14em] text-white font-medium leading-tight">
             {title}
           </span>
-          <span className="font-sans text-[11px] leading-snug text-platinum/55 mt-[3px]">
+          <span className="font-sans text-[11px] leading-snug text-white/70 mt-[3px]">
             {text}
           </span>
         </div>
@@ -193,68 +147,22 @@ function FloatingCard({
   );
 }
 
-// ─── ImageFrame ─── 3D "claw" tilt that follows the cursor ─────────────────────
+// ─── ImageFrame ─── clean image container ─────────────────────
 
 function ImageFrame({
   heroImageUrl,
-  pointer,
   reduced,
 }: {
   heroImageUrl?: string;
   pointer: Pointer;
   reduced: boolean | null;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const rotX = useSpring(0, { stiffness: 130, damping: 16, mass: 0.5 });
-  const rotY = useSpring(0, { stiffness: 130, damping: 16, mass: 0.5 });
-  const glareX = useSpring(50, { stiffness: 120, damping: 20 });
-  const glareY = useSpring(50, { stiffness: 120, damping: 20 });
-
-  const clamp = (v: number) => Math.max(-0.5, Math.min(0.5, v));
-
-  const compute = () => {
-    const el = ref.current;
-    if (!el || reduced) return;
-    if (!pointer.active.get()) {
-      rotX.set(0);
-      rotY.set(0);
-      glareX.set(50);
-      glareY.set(50);
-      return;
-    }
-    const r = el.getBoundingClientRect();
-    const nx = clamp((pointer.x.get() - r.left) / r.width - 0.5);
-    const ny = clamp((pointer.y.get() - r.top) / r.height - 0.5);
-    // Cursor side sinks, opposite side lifts → the "claw / push" feel.
-    rotY.set(nx * 9);
-    rotX.set(-ny * 9);
-    glareX.set((nx + 0.5) * 100);
-    glareY.set((ny + 0.5) * 100);
-  };
-
-  useMotionValueEvent(pointer.x, "change", compute);
-  useMotionValueEvent(pointer.y, "change", compute);
-  useMotionValueEvent(pointer.active, "change", compute);
-
-  const glareBg = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.16), transparent 46%)`;
-
   return (
-    <motion.div
-      ref={ref}
-      style={{
-        rotateX: rotX,
-        rotateY: rotY,
-        transformPerspective: 1200,
-        transformStyle: "preserve-3d",
-      }}
-      className="relative group overflow-hidden rounded-[28px] lg:rounded-[34px] will-change-transform"
-    >
+    <div className="relative group overflow-hidden rounded-[28px] lg:rounded-[34px] shadow-[var(--shadow-lg)]">
       <div
         className="relative overflow-hidden rounded-[28px] lg:rounded-[34px]"
         style={{
           aspectRatio: "4 / 5",
-          boxShadow:
-            "0 34px 72px -20px rgba(2,6,23,0.18), 0 12px 30px -12px rgba(2,6,23,0.10)",
         }}
       >
         {heroImageUrl ? (
@@ -265,7 +173,7 @@ function ImageFrame({
             loading="eager"
           />
         ) : (
-          /* Placeholder — sem card central; watermark + rótulo no rodapé */
+          /* Placeholder */
           <div
             role="img"
             aria-label="Imagem principal da Elih — aguardando upload"
@@ -275,26 +183,14 @@ function ImageFrame({
                 "linear-gradient(150deg, #e9eef4 0%, #f2f5f9 48%, #dde4ee 100%)",
             }}
           >
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-[0.06]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(15,23,42,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.6) 1px, transparent 1px)",
-                backgroundSize: "34px 34px",
-              }}
-            />
             <HeartHandshake
               aria-hidden
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-graphite/[0.12]"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 text-navy-900/[0.12]"
               strokeWidth={1}
             />
             <div className="absolute bottom-5 left-6">
-              <p className="font-grotesk text-[10px] uppercase tracking-[0.2em] text-graphite/35">
+              <p className="font-display text-[10px] uppercase tracking-[0.2em] text-navy-900/40">
                 Imagem principal
-              </p>
-              <p className="font-grotesk text-[9px] tracking-wide text-graphite/22 mt-0.5">
-                prop: heroImageUrl
               </p>
             </div>
           </div>
@@ -303,50 +199,24 @@ function ImageFrame({
         {/* Bottom navy gradient for badge legibility */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-deep-navy/30 via-transparent to-transparent"
-        />
-        {/* Cursor-following glare */}
-        {!reduced && (
-          <motion.div
-            aria-hidden
-            style={{ background: glareBg }}
-            className="pointer-events-none absolute inset-0 mix-blend-overlay"
-          />
-        )}
-        {/* Metallic edge — brightens on hover */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[28px] lg:rounded-[34px] edge edge-soft opacity-70 group-hover:opacity-100 transition-opacity duration-500"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/20 via-transparent to-transparent"
         />
 
-        {/* Badge: Cotação consultiva — dark glass */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.86, y: -5 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 1.1, ease }}
-          className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full overflow-hidden shadow-[0_8px_22px_-8px_rgba(2,6,23,0.5)]"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(12,19,36,0.78) 100%)",
-            backdropFilter: "blur(14px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(14px) saturate(1.4)",
-          }}
+        {/* Badge: Cotação consultiva */}
+        <div
+          className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md shadow-[var(--shadow-sm)]"
         >
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full edge edge-soft"
-          />
           <CalendarCheck
-            className="w-3.5 h-3.5 text-blue-300/90"
-            strokeWidth={1.5}
+            className="w-3.5 h-3.5 text-white/90"
+            strokeWidth={1.75}
             aria-hidden
           />
-          <span className="font-grotesk text-[10px] uppercase tracking-[0.15em] text-platinum/90 font-medium">
+          <span className="font-display text-[10px] uppercase tracking-[0.15em] text-white font-medium">
             Cotação consultiva
           </span>
-        </motion.div>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -391,7 +261,7 @@ export default function Hero({
     <section
       ref={containerRef}
       id="hero"
-      className="relative isolate min-h-[100svh] flex flex-col bg-clinical text-graphite"
+      className="relative isolate min-h-[100svh] flex flex-col bg-clinical text-neutral-900"
       aria-label="Início — Elih Seguros"
     >
       {/* ── Background ── */}
@@ -401,18 +271,18 @@ export default function Hero({
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_55%_at_105%_55%,rgba(12,19,36,0.05),transparent_65%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_55%_at_105%_55%,rgba(1,18,70,0.04),transparent_65%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 right-0 -z-10 h-32 bg-gradient-to-b from-transparent to-obsidian/[0.055]"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 -z-10 h-32 bg-gradient-to-b from-transparent to-navy-950/[0.03]"
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(15,23,42,0.032) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.032) 1px, transparent 1px)",
+            "linear-gradient(rgba(1,18,70,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(1,18,70,0.02) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
           WebkitMaskImage:
             "radial-gradient(ellipse 72% 62% at 50% 35%, #000 20%, transparent 72%)",
@@ -434,17 +304,17 @@ export default function Hero({
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.72, delay: 0.1, ease }}
-              className="mt-4 text-[1.8rem] sm:text-[2.1rem] lg:text-[2.25rem] xl:text-[2.5rem] font-extrabold tracking-tight leading-[1.08] text-balance text-obsidian"
+              className="mt-4 text-[1.8rem] sm:text-[2.1rem] lg:text-[2.25rem] xl:text-[2.5rem] font-extrabold font-display tracking-tight leading-[1.08] text-balance text-navy-950"
             >
               Plano de Saúde para Empresas (PME) —{" "}
-              <span className="text-corp-navy block sm:inline">A partir de 2 vidas</span>
+              <span className="text-navy-900 block sm:inline">A partir de 2 vidas</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.22, ease }}
-              className="mt-4 text-[0.95rem] sm:text-base leading-relaxed text-slate-600 max-w-[480px] text-balance"
+              className="mt-4 text-[0.95rem] sm:text-base leading-relaxed text-neutral-600 max-w-[480px] text-balance"
             >
               Cote e compare planos para o seu CNPJ com as principais operadoras (Bradesco, Amil, SulAmérica e mais). Encontre a rede credenciada ideal com até 40% de economia.
             </motion.p>
@@ -458,7 +328,7 @@ export default function Hero({
               <a
                 href="#contato"
                 onClick={onPrimaryClick}
-                className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-[11px] bg-obsidian text-pristine text-sm font-semibold hover:bg-corp-navy transition-all duration-200 shadow-[0_6px_20px_-6px_rgba(2,6,23,0.24)] hover:shadow-[0_10px_26px_-6px_rgba(2,6,23,0.32)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-corp-navy"
+                className="group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-navy-900 text-white text-sm font-semibold hover:bg-navy-950 transition-all duration-200 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 font-display"
               >
                 Solicitar cotação consultiva
                 <ArrowRight
@@ -469,28 +339,9 @@ export default function Hero({
               <a
                 href="#solucoes"
                 onClick={onSecondaryClick}
-                className="group relative inline-flex items-center gap-2 px-6 py-3.5 rounded-[11px] text-sm font-semibold text-obsidian overflow-hidden transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
-                style={{
-                  background: "linear-gradient(160deg, rgba(255,255,255,0.96) 0%, rgba(241,245,249,0.92) 100%)",
-                  boxShadow:
-                    "inset 0 1px 0 rgba(255,255,255,0.9), 0 0 0 1px rgba(15,23,42,0.72), 0 4px 14px -4px rgba(15,23,42,0.18)",
-                }}
+                className="group relative inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-navy-300 text-navy-800 hover:bg-navy-50 text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 font-display"
               >
-                {/* Top-edge metallic sheen */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-80"
-                />
-                {/* Hover fill */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  style={{
-                    background:
-                      "linear-gradient(160deg, rgba(15,23,42,0.04) 0%, rgba(15,23,42,0.08) 100%)",
-                  }}
-                />
-                <span className="relative">Conhecer soluções</span>
+                Conhecer soluções
               </a>
             </motion.div>
 
@@ -498,7 +349,7 @@ export default function Hero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.46 }}
-              className="mt-3 font-grotesk text-[11px] uppercase tracking-[0.16em] text-slate-500"
+              className="mt-3 font-display text-[11px] uppercase tracking-overline text-navy-500"
               aria-label="Resposta rápida, atendimento consultivo e sem compromisso"
             >
               Resposta rápida · Atendimento consultivo · Sem compromisso
@@ -508,20 +359,20 @@ export default function Hero({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.56 }}
-              className="mt-6 pt-5 border-t border-soft-slate grid grid-cols-4 gap-0"
+              className="mt-6 pt-5 border-t border-neutral-200 grid grid-cols-4 gap-0"
             >
               {trustStats.map((s, i) => (
                 <div
                   key={s.label}
                   className={cn(
                     "flex flex-col gap-0.5 pr-4",
-                    i > 0 && "pl-4 border-l border-soft-slate"
+                    i > 0 && "pl-4 border-l border-neutral-200"
                   )}
                 >
-                  <dt className="text-sm font-semibold text-obsidian tabular-nums whitespace-nowrap">
+                  <dt className="text-sm font-semibold text-navy-950 font-display tabular-nums whitespace-nowrap">
                     {s.value}
                   </dt>
-                  <dd className="font-grotesk text-[10px] uppercase tracking-[0.13em] text-slate-500 whitespace-nowrap">
+                  <dd className="font-display text-[10px] uppercase tracking-[0.13em] text-neutral-500 whitespace-nowrap">
                     {s.label}
                   </dd>
                 </div>
@@ -573,18 +424,14 @@ export default function Hero({
                 {careCards.map((card) => (
                   <div
                     key={card.id}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-graphite/15"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(15,23,42,0.92), rgba(12,19,36,0.82))",
-                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-navy-950/70 backdrop-blur-md"
                   >
                     <card.icon
-                      className="w-3.5 h-3.5 text-platinum/70"
-                      strokeWidth={1.5}
+                      className="w-3.5 h-3.5 text-white/70"
+                      strokeWidth={1.75}
                       aria-hidden
                     />
-                    <span className="font-grotesk text-[10px] uppercase tracking-[0.12em] text-platinum/85">
+                    <span className="font-display text-[10px] uppercase tracking-[0.12em] text-white">
                       {card.title}
                     </span>
                   </div>

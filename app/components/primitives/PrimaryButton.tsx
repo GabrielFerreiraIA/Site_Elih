@@ -16,12 +16,12 @@ export default function PrimaryButton({
 }) {
   const palette =
     tone === "onDark"
-      ? "bg-pristine text-obsidian hover:bg-platinum"
-      : "bg-obsidian text-pristine hover:bg-corp-navy";
+      ? "bg-white text-navy-900 hover:bg-navy-100 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]"
+      : "bg-navy-900 text-white hover:bg-navy-950 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]";
   return (
     <a
       href={href}
-      className={`group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-[10px] text-sm font-semibold transition-colors duration-200 ${palette} ${className}`}
+      className={`group inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full text-sm font-semibold font-display transition-all duration-200 ${palette} ${className}`}
     >
       {children}
       <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

@@ -1,3 +1,7 @@
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/effects.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,12 +14,15 @@
   }
 
   body {
-    @apply bg-obsidian text-platinum;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
     font-feature-settings: "ss01", "cv01";
   }
 
   ::selection {
-    @apply bg-platinum text-obsidian;
+    background-color: var(--brand-soft);
+    color: var(--brand-strong);
   }
 
   /* Scroll offset for fixed navbar */
@@ -26,85 +33,22 @@
 
 @layer components {
   .glass-dark {
-    background: linear-gradient(
-      135deg,
-      rgba(15, 23, 42, 0.65) 0%,
-      rgba(12, 19, 36, 0.5) 100%
-    );
-    backdrop-filter: blur(20px) saturate(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  }
-
-  .glass-light {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(248, 250, 252, 0.5) 100%
-    );
-    backdrop-filter: blur(20px) saturate(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  }
-
-  .divider-platinum {
-    @apply border-platinum/10;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(20px) saturate(1.1);
+    -webkit-backdrop-filter: blur(20px) saturate(1.1);
   }
 
   .overline {
-    @apply font-grotesk uppercase tracking-overline text-xs font-medium;
+    font-family: var(--font-display);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-overline);
+    text-transform: uppercase;
+    color: var(--navy-500);
   }
 
-  /* ── Metallic edge (silver gradient border, bright at corners) ── */
-  .edge {
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    padding: 1px;
-  }
-  .edge-soft {
-    background: linear-gradient(
-      135deg,
-      rgba(226, 232, 240, 0.5) 0%,
-      rgba(148, 163, 184, 0.08) 28%,
-      rgba(226, 232, 240, 0.02) 50%,
-      rgba(148, 163, 184, 0.08) 72%,
-      rgba(226, 232, 240, 0.42) 100%
-    );
-  }
-  .edge-strong {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(148, 163, 184, 0.25) 32%,
-      rgba(226, 232, 240, 0.12) 50%,
-      rgba(148, 163, 184, 0.25) 68%,
-      rgba(255, 255, 255, 0.9) 100%
-    );
-  }
-
-  /* Faint blueprint grid, fades out radially */
-  .grid-fade {
-    background-image:
-      linear-gradient(rgba(226, 232, 240, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(226, 232, 240, 0.04) 1px, transparent 1px);
-    background-size: 64px 64px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-  }
-
-  /* Grain noise overlay sutil para fundos dark */
-  .grain {
-    position: relative;
-  }
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.03;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  .overline--on-dark {
+    color: var(--navy-200);
   }
 }
 

@@ -36,10 +36,10 @@ function PhoneMockup({ nome }: { nome: string }) {
       className="relative mx-auto w-[270px] sm:w-[290px]"
     >
       {/* Glow ambiente */}
-      <div className="absolute inset-x-[-30%] top-[10%] bottom-[-10%] rounded-full bg-[#25D366]/10 blur-3xl pointer-events-none" />
+      <div className="absolute inset-x-[-30%] top-[10%] bottom-[-10%] rounded-full bg-[#25D366]/5 blur-3xl pointer-events-none" />
 
       {/* Frame do telefone */}
-      <div className="relative rounded-[2.8rem] bg-[#111B21] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.07)] overflow-hidden">
+      <div className="relative rounded-[2.8rem] bg-[#111B21] shadow-[var(--shadow-lg)] border border-white/5 overflow-hidden">
 
         {/* Notch */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-[#111B21] rounded-b-2xl z-20" />
@@ -60,7 +60,7 @@ function PhoneMockup({ nome }: { nome: string }) {
 
         {/* Header WhatsApp */}
         <div className="bg-[#202C33] px-3.5 py-2.5 flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500/40 to-blue-800/40 border border-blue-400/40 flex items-center justify-center shrink-0 font-bold text-blue-300 text-sm">
+          <div className="w-9 h-9 rounded-full bg-navy-900 border border-white/10 flex items-center justify-center shrink-0 font-bold text-white text-sm">
             E
           </div>
           <div className="flex-1 min-w-0">
@@ -193,11 +193,11 @@ function PhoneMockup({ nome }: { nome: string }) {
             className="absolute -top-4 -right-4 bg-[#25D366] rounded-2xl px-3 py-1.5 shadow-[0_8px_24px_-4px_rgba(37,211,102,0.45)] flex items-center gap-1.5"
           >
             <motion.span
-              className="w-1.5 h-1.5 rounded-full bg-obsidian"
+              className="w-1.5 h-1.5 rounded-full bg-[#111B21]"
               animate={{ opacity: [1, 0.3, 1] }}
               transition={{ duration: 1.2, repeat: Infinity }}
             />
-            <span className="text-[11px] font-semibold text-obsidian">Nova mensagem</span>
+            <span className="text-[11px] font-semibold text-[#111B21]">Nova mensagem</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -222,19 +222,19 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
     : "Sua cotação foi enviada ao nosso time.";
 
   return (
-    <main className="min-h-screen bg-obsidian text-platinum flex flex-col overflow-hidden">
+    <main className="min-h-screen bg-[#fafbfd] text-neutral-900 flex flex-col overflow-hidden">
 
       {/* Glow de fundo */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute left-[-15%] top-[-10%] w-[55%] h-[65%] rounded-full bg-blue-700/10 blur-[120px]" />
-        <div className="absolute right-[-10%] bottom-[-15%] w-[45%] h-[55%] rounded-full bg-[#25D366]/6 blur-[100px]" />
+        <div className="absolute left-[-15%] top-[-10%] w-[55%] h-[65%] rounded-full bg-blue-700/5 blur-[120px]" />
+        <div className="absolute right-[-10%] bottom-[-15%] w-[45%] h-[55%] rounded-full bg-[#25D366]/3 blur-[100px]" />
       </div>
       {/* Grid sutil */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
         style={{
-          backgroundImage: "linear-gradient(rgba(226,232,240,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(226,232,240,0.018) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(1,18,70,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(1,18,70,0.015) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       />
@@ -243,7 +243,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
       <nav className="w-full px-6 sm:px-10 py-5 flex items-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[11px] font-grotesk uppercase tracking-[0.18em] text-platinum/35 hover:text-platinum/70 transition-colors"
+          className="inline-flex items-center gap-2 text-[11px] font-display uppercase tracking-[0.18em] text-neutral-500 hover:text-navy-900 transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" aria-hidden />
           Voltar ao site
@@ -263,10 +263,10 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#25D366]/15 border border-[#25D366]/30 mb-7"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#25D366]/10 border border-[#25D366]/20 mb-7"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
-                <span className="text-[11px] font-grotesk uppercase tracking-[0.18em] text-[#25D366]/90">
+                <span className="text-[11px] font-display uppercase tracking-[0.18em] text-[#25D366]">
                   Cotação confirmada
                 </span>
               </motion.div>
@@ -276,13 +276,12 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, ease, delay: 0.1 }}
-                className="text-[2.6rem] sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.06] tracking-tight text-pristine text-balance"
+                className="text-[2.6rem] sm:text-5xl lg:text-[3.5rem] font-bold font-display leading-[1.06] tracking-tight text-navy-950 text-balance"
               >
                 Fique atento ao
                 <br />
                 <span className="relative">
-                  seu{" "}
-                  <span className="text-[#25D366]">WhatsApp.</span>
+                  seu <span className="text-[#25D366]">WhatsApp.</span>
                 </span>
               </motion.h1>
 
@@ -290,7 +289,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease, delay: 0.2 }}
-                className="mt-5 text-lg sm:text-xl text-platinum/60 leading-relaxed max-w-md text-balance"
+                className="mt-5 text-lg sm:text-xl text-neutral-600 leading-relaxed max-w-md text-balance"
               >
                 Um de nossos consultores entrará em contato em breve com as melhores opções do mercado para o seu perfil.
               </motion.p>
@@ -301,7 +300,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="mt-3 text-sm text-platinum/40"
+                  className="mt-3 text-sm text-neutral-400"
                 >
                   {subtext}
                 </motion.p>
@@ -320,9 +319,9 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 ].map((pill) => (
                   <span
                     key={pill.label}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-corp-navy/80 border border-platinum/10 text-xs text-platinum/55"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-navy-50/50 border border-navy-100 text-xs text-neutral-650"
                   >
-                    <pill.icon className="w-3.5 h-3.5 text-platinum/40" strokeWidth={1.5} aria-hidden />
+                    <pill.icon className="w-3.5 h-3.5 text-navy-450" strokeWidth={1.5} aria-hidden />
                     {pill.label}
                   </span>
                 ))}
@@ -333,7 +332,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{ opacity: 1, scaleX: 1 }}
                 transition={{ duration: 0.5, delay: 0.45, ease }}
-                className="origin-left my-8 h-px bg-gradient-to-r from-platinum/15 to-transparent"
+                className="origin-left my-8 h-px bg-gradient-to-r from-neutral-200 to-transparent"
               />
 
               {/* CTAs */}
@@ -347,14 +346,14 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#25D366] text-obsidian text-[0.9rem] font-semibold hover:bg-[#20c25c] active:scale-[0.98] transition-all duration-150 shadow-[0_14px_32px_-8px_rgba(37,211,102,0.35)]"
+                  className="group inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-[#25D366] text-white text-[0.9rem] font-semibold hover:bg-[#20c25c] active:scale-[0.98] transition-all duration-150 shadow-[var(--shadow-sm)] font-display"
                 >
                   <MessageCircle className="w-4.5 h-4.5" strokeWidth={2} aria-hidden />
                   Falar pelo WhatsApp
                 </a>
                 <Link
                   href="/"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border border-platinum/12 text-[0.9rem] font-medium text-platinum/50 hover:border-platinum/25 hover:text-platinum/75 active:scale-[0.98] transition-all duration-150"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full border border-neutral-300 text-[0.9rem] font-medium text-neutral-600 hover:border-neutral-400 hover:text-neutral-900 active:scale-[0.98] transition-all duration-150 font-display"
                 >
                   <ArrowLeft className="w-4 h-4" aria-hidden />
                   Voltar ao início
@@ -379,7 +378,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease, delay: 0.7 }}
         >
-          <p className="font-grotesk text-[10px] uppercase tracking-[0.22em] text-platinum/25 mb-8 text-center">
+          <p className="font-display text-[10px] uppercase tracking-[0.22em] text-neutral-400 mb-8 text-center">
             O que acontece agora
           </p>
 
@@ -388,7 +387,7 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
             {/* Linha conectora — só no desktop */}
             <div
               aria-hidden
-              className="hidden sm:block absolute top-[28px] left-[calc(16.6%+12px)] right-[calc(16.6%+12px)] h-px bg-gradient-to-r from-platinum/10 via-platinum/20 to-platinum/10"
+              className="hidden sm:block absolute top-[28px] left-[calc(16.6%+12px)] right-[calc(16.6%+12px)] h-px bg-gradient-to-r from-neutral-100 via-neutral-200 to-neutral-100"
             />
 
             {steps.map((step, i) => (
@@ -397,22 +396,22 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, ease, delay: 0.8 + i * 0.1 }}
-                className="relative flex sm:flex-col items-start sm:items-center sm:text-center gap-4 sm:gap-0 px-4 py-4 rounded-2xl bg-corp-navy/40 border border-white/[0.05] sm:bg-transparent sm:border-none sm:p-0"
+                className="relative flex sm:flex-col items-start sm:items-center sm:text-center gap-4 sm:gap-0 px-4 py-4 rounded-2xl bg-white border border-neutral-200 shadow-[var(--shadow-sm)] sm:bg-transparent sm:border-none sm:p-0"
               >
                 {/* Ícone com número */}
                 <div className="relative shrink-0">
-                  <div className="w-14 h-14 rounded-2xl bg-corp-navy border border-white/[0.07] flex items-center justify-center sm:mx-auto">
-                    <step.icon className="w-5 h-5 text-platinum/50" strokeWidth={1.5} aria-hidden />
+                  <div className="w-14 h-14 rounded-2xl bg-navy-50 border border-navy-100 flex items-center justify-center sm:mx-auto">
+                    <step.icon className="w-5 h-5 text-navy-600" strokeWidth={1.5} aria-hidden />
                   </div>
-                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-obsidian border border-white/10 flex items-center justify-center font-grotesk text-[9px] font-bold text-platinum/40">
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white border border-neutral-250 flex items-center justify-center font-display text-[9px] font-bold text-neutral-600">
                     {step.num}
                   </span>
                 </div>
 
                 {/* Texto */}
                 <div className="sm:mt-4">
-                  <p className="text-sm font-semibold text-platinum/75">{step.title}</p>
-                  <p className="mt-0.5 text-[12px] text-platinum/35 leading-relaxed">{step.desc}</p>
+                  <p className="text-sm font-semibold text-navy-950 font-display">{step.title}</p>
+                  <p className="mt-0.5 text-[12px] text-neutral-500 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -425,9 +424,9 @@ export default function ObrigadoContent({ nome, tipo }: { nome: string; tipo: st
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.1 }}
-        className="w-full border-t border-white/[0.04] py-5 px-6 text-center"
+        className="w-full border-t border-neutral-200 py-5 px-6 text-center"
       >
-        <p className="text-[11px] text-platinum/25 font-grotesk tracking-wide">
+        <p className="text-[11px] text-neutral-450 font-display tracking-wide">
           Elih Seguros · Seus dados estão protegidos pela LGPD · Sem compromisso
         </p>
       </motion.footer>

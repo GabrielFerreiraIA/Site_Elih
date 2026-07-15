@@ -20,9 +20,9 @@ export default function SectionHeader({
   className?: string;
 }) {
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
-  const titleColor = tone === "dark" ? "text-pristine" : "text-obsidian";
+  const titleColor = tone === "dark" ? "text-white" : "text-navy-950";
   const subColor =
-    tone === "dark" ? "text-platinum/65" : "text-graphite/75";
+    tone === "dark" ? "text-white/70" : "text-neutral-600";
 
   return (
     <div className={`${alignClass} max-w-3xl ${className}`}>
@@ -42,7 +42,7 @@ export default function SectionHeader({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.6, delay: 0.05 }}
-        className={`text-balance text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight ${titleColor}`}
+        className={`text-balance text-3xl sm:text-4xl lg:text-5xl font-bold font-display tracking-tight ${titleColor}`}
       >
         {title}
       </motion.h2>

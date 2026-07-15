@@ -37,22 +37,16 @@ export default function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 sm:px-4">
-      {/* Floating navy-glass pill — shrinks & lifts on scroll */}
+      {/* Floating white pill — shrinks & lifts on scroll */}
       <div
         className={cn(
-          "relative mx-auto mt-3 overflow-hidden rounded-2xl glass-dark",
+          "relative mx-auto mt-3 overflow-hidden rounded-full bg-white border border-neutral-200/80 shadow-[var(--shadow-sm)]",
           "transition-all duration-500 ease-out",
           scrolled
-            ? "max-w-4xl mt-2 shadow-[0_18px_44px_-18px_rgba(2,6,23,0.55)]"
-            : "max-w-6xl shadow-[0_14px_40px_-22px_rgba(2,6,23,0.5)]"
+            ? "max-w-4xl mt-2 shadow-[var(--shadow-md)]"
+            : "max-w-6xl shadow-[var(--shadow-sm)]"
         )}
       >
-        {/* Metallic edge */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-2xl edge edge-soft"
-        />
-
         <nav
           className={cn(
             "relative flex items-center justify-between gap-4 px-4 sm:px-5",
@@ -68,7 +62,7 @@ export default function Navbar() {
             aria-label="Elih Seguros — página inicial"
           >
             <img
-              src="https://res.cloudinary.com/dxpfoolyp/image/upload/q_auto/f_auto/v1780425930/ELIH_PNG-removebg-preview_c3koqg.png"
+              src="/img/logo/elih-seguros-wordmark-navy.png"
               alt="Elih Seguros"
               className="h-10 sm:h-12 w-auto object-contain"
             />
@@ -80,7 +74,7 @@ export default function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="px-3.5 py-2 rounded-lg text-sm text-platinum/70 hover:text-pristine hover:bg-white/[0.06] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-platinum/40"
+                className="px-3.5 py-2 rounded-full text-sm font-semibold text-neutral-600 hover:text-navy-900 hover:bg-navy-50/50 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-500"
               >
                 {item.label}
               </a>
@@ -90,7 +84,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <a
             href="#contato"
-            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-pristine text-obsidian text-sm font-semibold hover:bg-platinum transition-colors duration-200 shadow-[0_4px_14px_-4px_rgba(2,6,23,0.4)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pristine shrink-0"
+            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-navy-900 text-white text-sm font-semibold hover:bg-navy-950 transition-colors duration-200 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-900 shrink-0 font-display"
           >
             Solicitar cotação
           </a>
@@ -98,7 +92,7 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-platinum hover:text-pristine hover:bg-white/[0.06] transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-platinum/40"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl text-neutral-700 hover:text-navy-900 hover:bg-navy-50 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-500"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
@@ -119,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden fixed inset-0 top-[4.75rem] z-40 glass-dark"
+            className="md:hidden fixed inset-0 top-[4.75rem] z-40 bg-white border-t border-neutral-100"
           >
             <div className="flex h-full flex-col justify-between gap-y-6 px-6 pb-10 pt-6">
               <nav className="grid gap-1.5" aria-label="Menu de navegação mobile">
@@ -130,7 +124,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.25, delay: 0.05 + i * 0.06 }}
-                    className="flex items-center px-4 py-4 text-lg font-medium text-platinum/85 hover:text-pristine hover:bg-white/[0.05] rounded-xl transition-colors duration-150"
+                    className="flex items-center px-4 py-4 text-lg font-medium text-neutral-800 hover:text-navy-900 hover:bg-navy-50 rounded-xl transition-colors duration-150"
                     onClick={() => setOpen(false)}
                   >
                     {item.label}
@@ -142,7 +136,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: 0.3 }}
-                className="inline-flex w-full items-center justify-center gap-2 px-5 py-4 rounded-xl bg-pristine text-obsidian text-base font-semibold hover:bg-platinum transition-colors duration-200"
+                className="inline-flex w-full items-center justify-center gap-2 px-5 py-4 rounded-full bg-navy-900 text-white text-base font-semibold hover:bg-navy-950 transition-colors duration-200 font-display shadow-[var(--shadow-sm)]"
                 onClick={() => setOpen(false)}
               >
                 Solicitar cotação

@@ -11,11 +11,11 @@ export default function GlassPanel({
 }) {
   const base =
     tone === "dark"
-      ? "glass-dark border-platinum/10"
-      : "glass-light border-graphite/10";
+      ? "glass-dark border-white/10"
+      : "bg-white border-neutral-200/80";
   return (
     <div
-      className={`${base} border rounded-[20px] shadow-[0_24px_60px_-30px_rgba(2,6,23,0.6)] ${className}`}
+      className={`${base} border rounded-[20px] shadow-[var(--shadow-lg)] ${className}`}
     >
       {children}
     </div>

@@ -19,16 +19,16 @@ const cols = [
 
 export default function Footer() {
   return (
-    <footer className="bg-obsidian border-t border-platinum/10 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer className="bg-navy-950 border-t border-white/10 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {cols.map((c) => (
             <div key={c.title}>
-              <h4 className="overline text-platinum/40 mb-4">{c.title}</h4>
+              <h4 className="overline text-white/40 mb-4">{c.title}</h4>
               <ul className="space-y-2.5">
                 {c.items.map((it) => (
                   <li key={it}>
-                    <span className="text-sm text-platinum/70 hover:text-pristine transition-colors cursor-default">
+                    <span className="text-sm text-white/70 hover:text-white transition-colors cursor-default">
                       {it}
                     </span>
                   </li>
@@ -37,14 +37,15 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="pt-8 border-t border-platinum/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-baseline gap-2">
-            <span className="text-sm font-bold tracking-tight text-pristine">
-              ELIH
-            </span>
-            <span className="overline text-platinum/40">Seguros</span>
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center">
+            <img
+              src="/img/logo/elih-seguros-lockup-white-on-navy.png"
+              alt="Elih Seguros"
+              className="h-9 w-auto object-contain"
+            />
           </div>
-          <p className="text-xs text-platinum/40">
+          <p className="text-xs text-white/40">
             © {new Date().getFullYear()} Elih Seguros · Consultoria premium em
             saúde corporativa
           </p>

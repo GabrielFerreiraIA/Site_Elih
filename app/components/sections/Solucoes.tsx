@@ -93,7 +93,7 @@ export default function Solucoes() {
   const active = solucoes.find((s) => s.id === activeId)!;
 
   return (
-    <section id="solucoes" className="bg-clinical border-b border-soft-slate">
+    <section id="solucoes" className="bg-[#fafbfd] border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
 
         {/* Section header — centered */}
@@ -112,7 +112,7 @@ export default function Solucoes() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.1] font-bold italic tracking-tight text-obsidian"
+            className="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.1] font-bold font-display tracking-tight text-navy-950"
           >
             O portfólio de gestão
           </motion.h2>
@@ -122,7 +122,7 @@ export default function Solucoes() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.6, delay: 0.28 }}
-            className="mx-auto mt-3 h-[1.5px] w-14 bg-graphite/25 origin-center"
+            className="mx-auto mt-3 h-[1.5px] w-14 bg-neutral-300 origin-center"
           />
 
           <motion.p
@@ -130,7 +130,7 @@ export default function Solucoes() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-3.5 text-sm sm:text-base leading-relaxed text-graphite/65 max-w-xl mx-auto"
+            className="mt-3.5 text-sm sm:text-base leading-relaxed text-neutral-600 max-w-xl mx-auto"
           >
             A Elih estrutura soluções sob medida para empresas que valorizam qualidade e buscam performance sustentável.
           </motion.p>
@@ -143,13 +143,11 @@ export default function Solucoes() {
           whileHover={{ y: -6 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 lg:grid-cols-12 rounded-[24px] overflow-hidden bg-corp-navy
-                     shadow-[0_30px_70px_-25px_rgba(15,23,42,0.12),0_15px_35px_-20px_rgba(15,23,42,0.06)] 
-                     hover:shadow-[0_55px_100px_-20px_rgba(15,23,42,0.2),0_20px_45px_-20px_rgba(15,23,42,0.08)] 
-                     border border-graphite/[0.08] transition-shadow duration-500"
+          className="grid grid-cols-1 lg:grid-cols-12 rounded-[24px] overflow-hidden bg-navy-900
+                     shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
         >
           {/* LEFT — dark nav panel */}
-          <div className="lg:col-span-3 bg-corp-navy flex flex-col p-5 lg:p-6">
+          <div className="lg:col-span-3 bg-navy-950 flex flex-col p-5 lg:p-6">
             <ul
               role="tablist"
               aria-label="Soluções Elih"
@@ -168,15 +166,15 @@ export default function Solucoes() {
                       onClick={() => setActiveId(s.id)}
                       className={`group w-full flex items-center gap-3 text-left px-4 py-2.5 rounded-[12px] transition-all duration-200 ${
                         isActive
-                          ? "bg-platinum/[0.13] text-pristine"
-                          : "text-platinum/50 hover:bg-platinum/[0.07] hover:text-platinum/80"
+                          ? "bg-white/10 text-white"
+                          : "text-white/50 hover:bg-white/5 hover:text-white"
                       }`}
                     >
                       <span
                         className={`flex items-center justify-center w-8 h-8 rounded-[8px] shrink-0 transition-colors ${
                           isActive
-                            ? "bg-platinum/20 text-pristine"
-                            : "bg-platinum/[0.08] text-platinum/45 group-hover:text-platinum/70"
+                            ? "bg-white/20 text-white"
+                            : "bg-white/5 text-white/50 group-hover:text-white"
                         }`}
                       >
                         <s.tabIcon className="w-4 h-4" strokeWidth={1.5} />
@@ -184,8 +182,8 @@ export default function Solucoes() {
                       <span
                         className={`text-sm font-medium leading-tight ${
                           isActive
-                            ? "text-pristine"
-                            : "text-platinum/55 group-hover:text-platinum/82"
+                            ? "text-white"
+                            : "text-white/60 group-hover:text-white"
                         }`}
                       >
                         {s.tabLabel}
@@ -197,12 +195,12 @@ export default function Solucoes() {
             </ul>
 
             {/* Bottom badge */}
-            <div className="mt-6 pt-4 border-t border-platinum/[0.09] flex items-start gap-2.5">
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-start gap-2.5">
               <Shield
-                className="w-3.5 h-3.5 text-platinum/28 shrink-0 mt-0.5"
+                className="w-3.5 h-3.5 text-white/30 shrink-0 mt-0.5"
                 strokeWidth={1.5}
               />
-              <span className="font-grotesk uppercase tracking-[0.13em] text-[9px] leading-[1.55] text-platinum/30">
+              <span className="font-display uppercase tracking-[0.13em] text-[9px] leading-[1.55] text-white/30">
                 Soluções integradas com visão consultiva
               </span>
             </div>
@@ -220,7 +218,7 @@ export default function Solucoes() {
                 className="absolute inset-0"
               >
                 {/* gradient fallback behind image */}
-                <div className="absolute inset-0 bg-gradient-to-br from-corp-navy via-graphite to-deep-navy" />
+                <div className="absolute inset-0 bg-gradient-to-br from-navy-900 via-neutral-900 to-navy-950" />
                 {/* product image — fills the 3:4 slot */}
                 <img
                   src={active.image}
@@ -229,10 +227,10 @@ export default function Solucoes() {
                   loading="lazy"
                 />
                 {/* bottom shade for caption legibility */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-obsidian/80 via-obsidian/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
                 {/* caption */}
                 <div className="absolute left-6 right-6 bottom-6">
-                  <p className="overline text-platinum/70">{active.photoCaption}</p>
+                  <p className="overline text-white/70">{active.photoCaption}</p>
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -240,7 +238,7 @@ export default function Solucoes() {
 
           {/* RIGHT — content panel */}
           <div
-            className="lg:col-span-4 bg-pristine p-5 sm:p-6 lg:p-7 flex flex-col"
+            className="lg:col-span-4 bg-white p-5 sm:p-6 lg:p-7 flex flex-col"
             role="tabpanel"
             id={`panel-${active.id}`}
             aria-labelledby={`tab-${active.id}`}
@@ -255,19 +253,19 @@ export default function Solucoes() {
                 className="flex flex-col flex-1"
               >
                 {/* Pill badge */}
-                <span className="inline-flex self-start items-center gap-1.5 px-2.5 py-1 rounded-full border border-graphite/12 bg-clinical text-[9.5px] font-grotesk uppercase tracking-[0.16em] text-graphite/45">
+                <span className="inline-flex self-start items-center gap-1.5 px-2.5 py-1 rounded-full border border-neutral-200 bg-neutral-50 text-[9.5px] font-display uppercase tracking-overline text-neutral-500">
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-corp-navy/50"
+                    className="w-1.5 h-1.5 rounded-full bg-navy-500"
                     aria-hidden
                   />
                   Solução ativa
                 </span>
 
-                <h3 className="mt-4 text-xl sm:text-2xl font-bold tracking-tight text-obsidian leading-snug text-balance">
+                <h3 className="mt-4 text-xl sm:text-2xl font-bold font-display tracking-tight text-navy-950 leading-snug text-balance">
                   {active.title}
                 </h3>
 
-                <p className="mt-2.5 text-sm leading-relaxed text-graphite/65 text-balance">
+                <p className="mt-2.5 text-sm leading-relaxed text-neutral-600 text-balance">
                   {active.description}
                 </p>
 
@@ -278,17 +276,17 @@ export default function Solucoes() {
                       key={b.text}
                       className={`flex items-start gap-3 py-2.5 ${
                         i < active.bullets.length - 1
-                          ? "border-b border-graphite/[0.09]"
+                          ? "border-b border-neutral-200/60"
                           : ""
                       }`}
                     >
-                      <span className="flex items-center justify-center w-[18px] h-[18px] rounded-full border border-graphite/15 bg-clinical shrink-0 mt-0.5">
+                      <span className="flex items-center justify-center w-[18px] h-[18px] rounded-full border border-navy-100 bg-navy-50 text-navy-600 shrink-0 mt-0.5">
                         <b.icon
-                          className="w-2.5 h-2.5 text-corp-navy"
+                          className="w-2.5 h-2.5 text-navy-600"
                           strokeWidth={2.5}
                         />
                       </span>
-                      <span className="text-sm text-graphite/80 leading-snug">
+                      <span className="text-sm text-neutral-750 leading-snug">
                         {b.text}
                       </span>
                     </li>
@@ -298,7 +296,7 @@ export default function Solucoes() {
                 {/* CTA */}
                 <a
                   href="#contato"
-                  className="mt-5 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] bg-obsidian text-pristine text-sm font-semibold hover:bg-corp-navy transition-colors duration-200 self-start"
+                  className="mt-5 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-navy-900 text-white text-sm font-semibold hover:bg-navy-950 transition-colors duration-200 self-start shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] font-display"
                 >
                   Ver solução
                   <ArrowRight className="w-4 h-4" />
@@ -314,10 +312,10 @@ export default function Solucoes() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-8 flex items-center justify-center gap-2.5 text-graphite/40"
+          className="mt-8 flex items-center justify-center gap-2.5 text-neutral-400"
         >
           <Activity className="w-3.5 h-3.5 shrink-0" strokeWidth={1.5} />
-          <span className="font-grotesk uppercase tracking-[0.18em] text-[9.5px]">
+          <span className="font-display uppercase tracking-[0.18em] text-[9.5px]">
             Gestão integrada · Inteligência de dados · Cuidado contínuo
           </span>
         </motion.div>

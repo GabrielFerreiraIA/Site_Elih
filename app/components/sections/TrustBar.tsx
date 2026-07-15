@@ -52,8 +52,8 @@ const OperadoraLogoCard = ({ name, url }: Operadora) => {
     <motion.div
       whileHover={{ scale: 1.04, y: -2 }}
       className="group relative flex items-center justify-center h-14 sm:h-16 w-32 sm:w-40 rounded-xl overflow-hidden
-                 bg-white/[0.02] border border-white/[0.04] backdrop-blur-sm
-                 transition-all duration-300 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.3)] hover:border-white/10"
+                 glass-dark border border-white/10 shadow-[var(--shadow-sm)] hover:border-white/20
+                 transition-all duration-300"
     >
       <img
         src={url}
@@ -69,12 +69,12 @@ const OperadoraLogoCard = ({ name, url }: Operadora) => {
 
 export default function TrustBar() {
   return (
-    <section id="operadoras" className="relative bg-obsidian overflow-hidden">
+    <section id="operadoras" className="relative bg-navy-950 overflow-hidden">
       {/* Top hairline */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-platinum/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       {/* Sweeping background laser light beam behind slider */}
-      <div className="absolute inset-x-0 top-[28%] -translate-y-1/2 -z-10 h-px w-full bg-gradient-to-r from-transparent via-blue-500/10 to-transparent blur-sm" />
+      <div className="absolute inset-x-0 top-[28%] -translate-y-1/2 -z-10 h-px w-full bg-gradient-to-r from-transparent via-accent-500/10 to-transparent blur-sm" />
 
       <div className="relative z-10 pt-20 pb-0">
         {/* Headline */}
@@ -85,12 +85,12 @@ export default function TrustBar() {
           transition={{ duration: 0.6 }}
           className="text-center px-4 mb-12"
         >
-          <p className="font-grotesk text-[11px] uppercase tracking-[0.22em] text-platinum/35 mb-4">
+          <p className="font-display text-[11px] uppercase tracking-[0.22em] text-white/40 mb-4">
             Parceria com as maiores operadoras do país
           </p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-pristine leading-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold font-display text-white leading-tight">
             Acesso premium às{" "}
-            <span className="text-platinum/60">melhores redes do Brasil.</span>
+            <span className="text-white/60">melhores redes do Brasil.</span>
           </h2>
         </motion.div>
 
@@ -148,19 +148,19 @@ export default function TrustBar() {
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: item.delay }}
               whileHover={{ y: -4 }}
               className="group relative flex flex-col p-6 rounded-2xl overflow-hidden
-                         bg-white/[0.01] border border-white/[0.03] backdrop-blur-sm
-                         transition-all duration-300 hover:border-white/[0.08]"
+                         glass-dark border border-white/10
+                         transition-all duration-300 hover:border-white/20"
             >
               {/* Subtle hover background highlight */}
-              <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(226,232,240,0.02),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.02),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
-              <span className="text-3xl sm:text-4xl font-serif font-semibold bg-gradient-to-b from-white via-platinum to-platinum/40 bg-clip-text text-transparent mb-3 leading-none">
+              <span className="text-3xl sm:text-4xl font-display font-semibold text-white mb-3 leading-none">
                 {item.stat}
               </span>
-              <h3 className="font-grotesk uppercase tracking-[0.14em] text-xs font-semibold text-white/90 mb-2 leading-relaxed">
+              <h3 className="font-display uppercase tracking-[0.14em] text-xs font-semibold text-white mb-2 leading-relaxed">
                 {item.title}
               </h3>
-              <p className="text-xs sm:text-[13px] text-platinum/45 leading-relaxed text-balance">
+              <p className="text-xs sm:text-[13px] text-white/50 leading-relaxed text-balance">
                 {item.desc}
               </p>
             </motion.div>
@@ -174,7 +174,7 @@ export default function TrustBar() {
         <div className="absolute inset-0 before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_bottom_center,rgba(30,58,138,0.45),transparent_65%)]" />
 
         {/* Curved border (the "bowl" effect) */}
-        <div className="absolute -left-1/2 top-1/2 aspect-[1/0.7] z-10 w-[200%] rounded-[100%] border-t border-platinum/[0.08] bg-obsidian" />
+        <div className="absolute -left-1/2 top-1/2 aspect-[1/0.7] z-10 w-[200%] rounded-[100%] border-t border-white/10 bg-navy-950" />
 
         {/* Sparkles */}
         <Sparkles
