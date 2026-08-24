@@ -42,7 +42,7 @@ export default function WhatsAppButton() {
             className="hidden sm:flex items-center bg-deep-navy/95 backdrop-blur-md text-platinum text-xs font-semibold px-3.5 py-2 rounded-xl border border-platinum/10 shadow-[0_8px_30px_rgba(2,6,23,0.5)] select-none hover:bg-graphite transition-colors duration-200"
           >
             <a
-              href="https://wa.me/558194004144"
+              href="https://wa.me/5511996579499"
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleClick}
@@ -59,7 +59,7 @@ export default function WhatsAppButton() {
 
             {/* Main Button Link */}
             <a
-              href="https://wa.me/558194004144"
+              href="https://wa.me/5511996579499"
               target="_blank"
               rel="noopener noreferrer"
               id="whatsapp-floating-button"

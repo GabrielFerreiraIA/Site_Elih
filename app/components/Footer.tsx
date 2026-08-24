@@ -13,7 +13,7 @@ const cols = [
   },
   {
     title: "Contato",
-    items: ["contato@elih.com.br", "+55 (11) 0000-0000", "São Paulo · SP"],
+    items: ["contato@elihseguros.com.br", "+55 11 99657-9499", "São Paulo · SP"],
   },
 ];
 

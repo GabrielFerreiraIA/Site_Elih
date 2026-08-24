@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const WHATSAPP_NUMBER = "5511000000000"; // substituir pelo número real
+const WHATSAPP_NUMBER = "5511996579499"; // substituir pelo número real
 
 // ─── Phone Mockup ─────────────────────────────────────────────────────────────
 

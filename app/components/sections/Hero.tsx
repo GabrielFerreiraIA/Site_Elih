@@ -359,20 +359,21 @@ export default function Hero({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.56 }}
-              className="mt-6 pt-5 border-t border-neutral-200 grid grid-cols-4 gap-0"
+              className="mt-6 pt-5 border-t border-neutral-200 grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-4 sm:gap-x-0 sm:gap-y-0"
             >
               {trustStats.map((s, i) => (
                 <div
                   key={s.label}
                   className={cn(
-                    "flex flex-col gap-0.5 pr-4",
-                    i > 0 && "pl-4 border-l border-neutral-200"
+                    "flex flex-col gap-0.5 pr-2 sm:pr-4",
+                    i > 0 && "pl-2 sm:pl-4 border-l border-neutral-200",
+                    i === 2 && "border-l-0 sm:border-l"
                   )}
                 >
                   <dt className="text-sm font-semibold text-navy-950 font-display tabular-nums whitespace-nowrap">
                     {s.value}
                   </dt>
-                  <dd className="font-display text-[10px] uppercase tracking-[0.13em] text-neutral-500 whitespace-nowrap">
+                  <dd className="font-display text-[10px] uppercase tracking-[0.13em] text-neutral-500 leading-tight">
                     {s.label}
                   </dd>
                 </div>
